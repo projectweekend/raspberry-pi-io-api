@@ -1,0 +1,7 @@
+web:
+    build: .
+    command: npm start
+    ports:
+        - 3000:3000
+    environment:
+        DEBUG: raspberry-pi-io-api:*
