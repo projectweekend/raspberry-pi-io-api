@@ -1,6 +1,8 @@
 web:
     build: .
     command: npm start
+    volumes:
+        - ./coverage:/src/coverage
     ports:
         - 3000:3000
     environment:
