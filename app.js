@@ -1,9 +1,11 @@
 var express = require( "express" );
 var logger = require( "morgan" );
 var bodyParser = require( "body-parser" );
+var databaseUtils = require( "api-utils" ).database;
 
 
 var routes = require( "./routes/index" );
+var db = databaseUtils.mongooseConnection();
 
 var app = express();
 
