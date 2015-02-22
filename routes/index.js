@@ -12,7 +12,7 @@ router.get( "/ping", function ( req, res, next ) {
 
 } );
 
-router.post( "/user", user.add );
+router.post( "/register", user.add );
 
 
 module.exports = router;

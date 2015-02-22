@@ -13,7 +13,7 @@ describe( "Register a new user with valid data", function () {
 
     it( "responds with 201 and data", function ( done ) {
 
-        api.post( "/user" )
+        api.post( "/register" )
             .set( "Content-Type", "application/json" )
             .send( {
                 email: email,
