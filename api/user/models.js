@@ -1,7 +1,7 @@
 var async = require( "async" );
 var bcrypt = require( "bcrypt" );
 var mongoose = require( "mongoose" );
-var errors = require( "../utils/errors" );
+var errors = require( "api-utils" ).errors;
 
 
 var Schema = mongoose.Schema;
