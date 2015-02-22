@@ -9,11 +9,14 @@ web:
         - ./coverage:/src/coverage
         - ./test:/src/test
         - ./api:/src/api
+        - ./routes:/src/routes
+        - ./app.js:/src/app.js
     ports:
         - 3000:3000
     links:
         - db
     environment:
         DEBUG: raspberry-pi-io-api:*
+        NODE_ENV: development
         JWT_SECRET: fakeToken
         JWT_EXPIRES: 20160
