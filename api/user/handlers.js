@@ -19,7 +19,7 @@ exports.register = function ( req, res, next ) {
         password: req.body.password
     };
 
-    User.add( user, function ( err, newUser ) {
+    User.register( user, function ( err, newUser ) {
 
         if ( err ) {
             return next( err );
@@ -59,6 +59,22 @@ exports.authenticate = function ( req, res, next ) {
         return res.status( 200 ).json( {
             token: authUtils.generateJWT( existingUser, [ "_id", "email" ] )
         } );
+
+    } );
+
+};
+
+
+exports.unRegister = function ( req, res, next ) {
+
+    User.unRegister( req.user, function ( err ) {
+
+        /* istanbul ignore if */
+        if ( err ) {
+            return next( err );
+        }
+
+        return res.status( 204 ).json();
 
     } );
 

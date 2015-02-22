@@ -7,6 +7,13 @@ var models = require( "../api/user/models" );
 var api = supertest( app );
 
 
+var routes = {
+    register: "/register",
+    unRegister: "/user",
+    authenticate: "/authenticate"
+};
+
+
 var testData = {
     valid: {
         email: "test@test.com",
@@ -22,7 +29,8 @@ var testData = {
         emailInUse: "Email address already in use",
         invalidCredentials: "Invalid credentials",
         passwordRequired: "Password is required"
-    }
+    },
+    token: ""
 };
 
 
@@ -46,7 +54,7 @@ describe( "Register a new user...", function () {
 
         it( "responds with 201 and data", function ( done ) {
 
-            api.post( "/register" )
+            api.post( routes.register )
                 .set( "Content-Type", "application/json" )
                 .send( {
                     email: testData.valid.email,
@@ -61,6 +69,8 @@ describe( "Register a new user...", function () {
 
                     expect( res.body ).to.have.a.property( "token" );
 
+                    testData.token = res.body.token;
+
                     return done();
 
                 } );
@@ -73,7 +83,7 @@ describe( "Register a new user...", function () {
 
         it( "responds with 400 and a message", function ( done ) {
 
-            api.post( "/register" )
+            api.post( routes.register )
                 .set( "Content-Type", "application/json" )
                 .send( {
                     email: testData.invalid.email,
@@ -102,7 +112,7 @@ describe( "Register a new user...", function () {
 
         it( "responds with 400 and a message", function ( done ) {
 
-            api.post( "/register" )
+            api.post( routes.register )
                 .set( "Content-Type", "application/json" )
                 .send( {
                     email: testData.valid.email,
@@ -131,7 +141,7 @@ describe( "Register a new user...", function () {
 
         it( "responds with 409 and a message", function ( done ) {
 
-            api.post( "/register" )
+            api.post( routes.register )
                 .set( "Content-Type", "application/json" )
                 .send( {
                     email: testData.valid.email,
@@ -163,7 +173,7 @@ describe( "Authenticate a user...", function () {
 
         it( "responds with 200 and a token", function ( done ) {
 
-            api.post( "/authenticate" )
+            api.post( routes.authenticate )
                 .set( "Content-Type", "application/json" )
                 .send( {
                     email: testData.valid.email,
@@ -190,7 +200,7 @@ describe( "Authenticate a user...", function () {
 
         it( "responds with 401 and a message", function ( done ) {
 
-            api.post( "/authenticate" )
+            api.post( routes.authenticate )
                 .set( "Content-Type", "application/json" )
                 .send( {
                     email: "not@registered.com",
@@ -217,7 +227,7 @@ describe( "Authenticate a user...", function () {
 
         it( "responds with 401 and a message", function ( done ) {
 
-            api.post( "/authenticate" )
+            api.post( routes.authenticate )
                 .set( "Content-Type", "application/json" )
                 .send( {
                     email: testData.valid.email,
@@ -244,7 +254,7 @@ describe( "Authenticate a user...", function () {
 
         it( "responds with 400 and a message", function ( done ) {
 
-            api.post( "/authenticate" )
+            api.post( routes.authenticate )
                 .set( "Content-Type", "application/json" )
                 .send( {
                     email: testData.invalid.email,
@@ -273,7 +283,7 @@ describe( "Authenticate a user...", function () {
 
         it( "responds with 400 and a message", function ( done ) {
 
-            api.post( "/authenticate" )
+            api.post( routes.authenticate )
                 .set( "Content-Type", "application/json" )
                 .send( {
                     email: testData.valid.email,
@@ -295,6 +305,29 @@ describe( "Authenticate a user...", function () {
                 } );
 
         } );
+
+    } );
+
+} );
+
+
+describe( "Unregister a user...", function () {
+
+    it( "responds with 204", function ( done ) {
+
+        api.del( routes.unRegister )
+            .set( "Content-Type", "application/json" )
+            .set( "Authorization", "Bearer " + testData.token )
+            .expect( 204 )
+            .end( function ( err ) {
+
+                if ( err ) {
+                    return done( err );
+                }
+
+                return done();
+
+            } );
 
     } );
 

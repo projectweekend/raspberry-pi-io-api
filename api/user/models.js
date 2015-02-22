@@ -20,7 +20,7 @@ var UserSchema = Schema ( {
 } );
 
 
-UserSchema.statics.add = function ( newUserData, done ) {
+UserSchema.statics.register = function ( newUserData, done ) {
 
     newUserData.password = bcrypt.hashSync( newUserData.password, 8 );
 
@@ -30,6 +30,7 @@ UserSchema.statics.add = function ( newUserData, done ) {
             return done( errors.conflict( "Email address already in use" ) );
         }
 
+        /* istanbul ignore if */
         if ( err ) {
             return done( err );
         }
@@ -49,6 +50,7 @@ UserSchema.statics.authenticate = function ( user, done ) {
 
         _this.findOne( { email: user.email }, function ( err, existingUser ) {
 
+            /* istanbul ignore if */
             if ( err ) {
                 return cb( err );
             }
@@ -67,6 +69,7 @@ UserSchema.statics.authenticate = function ( user, done ) {
 
         bcrypt.compare( user.password, existingUser.password, function ( err, result ) {
 
+            /* istanbul ignore if */
             if ( err ) {
                 return cb( err );
             }
@@ -88,6 +91,22 @@ UserSchema.statics.authenticate = function ( user, done ) {
         }
 
         return done( null, existingUser);
+
+    } );
+
+};
+
+
+UserSchema.statics.unRegister = function ( user, done ) {
+
+    this.findOneAndRemove( { email: user.email }, function ( err ) {
+
+        /* istanbul ignore if */
+        if ( err ) {
+            return done( err );
+        }
+
+        return done( null );
 
     } );
 

@@ -10,6 +10,10 @@ var GPIOConfigSchema = Schema( {
         type: Number,
         required: true
     },
+    name: {
+        type: String,
+        trim: true
+    },
     mode: {
         type: String,
         required: true
@@ -20,7 +24,6 @@ var GPIOConfigSchema = Schema( {
     },
     resistor: String,
     pinEvent: String,
-    eventHandler: String,
     bounce: Number
 } );
 
