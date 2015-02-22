@@ -8,9 +8,12 @@
   },
   "dependencies": {
     "api-utils": "git://github.com/projectweekend/Node-API-Utils",
+    "async": "^0.9.0",
+    "bcrypt": "^0.8.1",
     "body-parser": "~1.10.2",
     "debug": "~2.1.1",
     "express": "~4.11.1",
+    "mongoose": "^3.8.23",
     "morgan": "~1.5.1"
   },
   "devDependencies": {
