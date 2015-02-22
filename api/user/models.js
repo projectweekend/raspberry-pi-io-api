@@ -20,11 +20,11 @@ var UserSchema = Schema ( {
 } );
 
 
-UserSchema.statics.add = function ( newUser, done ) {
+UserSchema.statics.add = function ( newUserData, done ) {
 
-    newUser.password = bcrypt.hashSync( newUser.password, 8 );
+    newUserData.password = bcrypt.hashSync( newUserData.password, 8 );
 
-    this.create( newUser, function ( err, doc ) {
+    this.create( newUserData, function ( err, newUser ) {
 
         if ( err && err.code === 11000 ) {
             return done( errors.conflict( "Email address already in use" ) );
@@ -34,9 +34,7 @@ UserSchema.statics.add = function ( newUser, done ) {
             return done( errors.system( "Database error occurred" ) );
         }
 
-        delete doc.password;
-
-        return done( null, doc );
+        return done( null, newUser );
 
     } );
 
@@ -76,8 +74,6 @@ UserSchema.statics.authenticate = function ( user, done ) {
             if ( !result ) {
                 return cb( errors.auth( "Invalid credentials" ) );
             }
-
-            delete existingUser.password;
 
             return cb( null, existingUser );
 

@@ -7,9 +7,12 @@ web:
     command: npm start
     volumes:
         - ./coverage:/src/coverage
+        - ./test:/src/test
     ports:
         - 3000:3000
     links:
         - db
     environment:
         DEBUG: raspberry-pi-io-api:*
+        JWT_SECRET: fakeToken
+        JWT_EXPIRES: 20160

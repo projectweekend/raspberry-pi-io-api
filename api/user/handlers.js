@@ -1,10 +1,12 @@
+var async = require( "async" );
+var authUtils = require( "api-utils" ).authentication;
 var User = require( "./models" ).User;
 
 
 exports.add = function ( req, res, next ) {
 
-    req.checkBody( "email" ).isEmail();
-    req.checkBody( "password" ).isEmail().isLength( 6 );
+    req.checkBody( "email", "Not a valid email address" ).isEmail();
+    req.checkBody( "password", "Password must be at least 6 characters" ).isLength( 6 );
 
     var validationErrors = req.validationErrors();
 
@@ -23,7 +25,9 @@ exports.add = function ( req, res, next ) {
             return next( err );
         }
 
-        return res.status( 201 ).json( newUser );
+        return res.status( 201 ).json( {
+            token: authUtils.generateJWT( newUser, [ "_id", "email" ] )
+        } );
 
     } );
 
