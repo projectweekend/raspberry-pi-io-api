@@ -9,5 +9,7 @@ web:
         - ./coverage:/src/coverage
     ports:
         - 3000:3000
+    links:
+        - db
     environment:
         DEBUG: raspberry-pi-io-api:*
