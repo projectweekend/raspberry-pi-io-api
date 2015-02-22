@@ -4,14 +4,6 @@ var router = express.Router();
 var user = require( "../api/user/handlers" );
 
 
-router.get( "/ping", function ( req, res, next ) {
-
-    res.json( {
-        message: "pong"
-    } );
-
-} );
-
 router.post( "/register", user.add );
 
 
