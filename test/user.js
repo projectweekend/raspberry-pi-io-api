@@ -1,18 +1,26 @@
-var app = require( "../app" );
 var expect = require( "chai" ).expect;
 var supertest = require( "supertest" );
 
+var app = require( "../app" );
+var models = require( "../api/user" ).models;
 
 var api = supertest( app );
 
 
-var validEmail = "test@test.com";
-var validPassword = "SuperSecret";
+var testData = {
+    valid: {
+        email: "test@test.com",
+        password: "SuperSecret"
+    },
+    invalid: {
+        email: "not an email",
+        password: "short",
+    },
+    messages: {
+        invalidEmail: "Not a valid email address"
+    }
+};
 
-var invalidEmail = "not an email";
-var invalidPassword = "short";
-
-var invalidEmailMessage = "Not a valid email address";
 
 
 describe( "Register a new user with valid data", function () {
@@ -22,8 +30,8 @@ describe( "Register a new user with valid data", function () {
         api.post( "/register" )
             .set( "Content-Type", "application/json" )
             .send( {
-                email: validEmail,
-                password: validPassword
+                email: testData.valid.email,
+                password: testData.valid.password
             } )
             .expect( 201 )
             .end( function ( err, res ) {
@@ -50,8 +58,8 @@ describe( "Register a new user with invalid email", function () {
         api.post( "/register" )
             .set( "Content-Type", "application/json" )
             .send( {
-                email: invalidEmail,
-                password: validPassword
+                email: testData.invalid.email,
+                password: testData.valid.password
             } )
             .expect( 400 )
             .end( function ( err, res ) {
@@ -61,7 +69,7 @@ describe( "Register a new user with invalid email", function () {
                 }
 
                 expect( res.body ).to.be.an( "array" ).with.length.equal( 1 );
-                expect( res.body[ 0 ] ).to.have.a.property( "msg", invalidEmailMessage );
+                expect( res.body[ 0 ] ).to.have.a.property( "msg", testData.messages.invalidEmail );
 
                 done();
 
