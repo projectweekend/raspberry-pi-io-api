@@ -1,4 +1,5 @@
 var express = require( "express" );
+var expressValidator = require( "express-validator" );
 var logger = require( "morgan" );
 var bodyParser = require( "body-parser" );
 var databaseUtils = require( "api-utils" ).database;
@@ -11,6 +12,7 @@ var app = express();
 
 app.use( logger( "dev" ) );
 app.use( bodyParser.json() );
+app.use( expressValidator() );
 app.use( bodyParser.urlencoded( {
     extended: false
 } ) );
