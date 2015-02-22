@@ -1,5 +1,6 @@
 var express = require( "express" );
 var expressValidator = require( "express-validator" );
+var jwt = require( "express-jwt" );
 var logger = require( "morgan" );
 var bodyParser = require( "body-parser" );
 var databaseUtils = require( "api-utils" ).database;
@@ -16,6 +17,13 @@ app.use( expressValidator() );
 app.use( bodyParser.urlencoded( {
     extended: false
 } ) );
+
+var jwtOptions = {
+    secret: process.env.JWT_SECRET
+};
+
+app.use( jwt( jwtOptions ).unless( { path: [ "/register" ] } ) );
+
 app.use( "/", routes );
 
 // catch 404 and forward to error handler
@@ -35,7 +43,13 @@ if ( app.get( "env" ) === "development" ) {
 
     app.use( function ( err, req, res, next ) {
 
-        res.status( err.status || 500 ).json( {
+        if ( err.name === "UnauthorizedError" ) {
+            return res.status( 401 ).json( {
+                message: "Authentication required"
+            } );
+        }
+
+        return res.status( err.status || 500 ).json( {
             message: err.message,
             error: err
         } );
@@ -47,6 +61,12 @@ if ( app.get( "env" ) === "development" ) {
 // production error handler
 // no stacktraces leaked to user
 app.use( function ( err, req, res, next ) {
+
+    if ( err.name === "UnauthorizedError" ) {
+        return res.status( 401 ).json( {
+            message: "Authentication required"
+        } );
+    }
 
     res.status( err.status || 500 ).json( {
         message: err.message,

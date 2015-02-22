@@ -8,6 +8,7 @@ web:
     volumes:
         - ./coverage:/src/coverage
         - ./test:/src/test
+        - ./api:/src/api
     ports:
         - 3000:3000
     links:
