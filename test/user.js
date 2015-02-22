@@ -2,7 +2,7 @@ var expect = require( "chai" ).expect;
 var supertest = require( "supertest" );
 
 var app = require( "../app" );
-var models = require( "../api/user" ).models;
+var models = require( "../api/user/models" );
 
 var api = supertest( app );
 
@@ -22,59 +22,80 @@ var testData = {
 };
 
 
+describe( "Register a new user...", function () {
 
-describe( "Register a new user with valid data", function () {
 
-    it( "responds with 201 and data", function ( done ) {
+    before( function ( done ) {
 
-        api.post( "/register" )
-            .set( "Content-Type", "application/json" )
-            .send( {
-                email: testData.valid.email,
-                password: testData.valid.password
-            } )
-            .expect( 201 )
-            .end( function ( err, res ) {
+        models.User.remove( {}, function ( err ) {
 
-                if ( err ) {
-                    return done( err );
-                }
+            if ( err ) {
+                return done( err );
+            }
 
-                expect( res.body ).to.have.a.property( "token" );
+            return done();
 
-                done();
-
-            } );
+        } );
 
     } );
 
-} );
 
+    describe( "with valid data", function () {
 
-describe( "Register a new user with invalid email", function () {
+        it( "responds with 201 and data", function ( done ) {
 
-    it( "responds with 400 and a message", function ( done ) {
+            api.post( "/register" )
+                .set( "Content-Type", "application/json" )
+                .send( {
+                    email: testData.valid.email,
+                    password: testData.valid.password
+                } )
+                .expect( 201 )
+                .end( function ( err, res ) {
 
-        api.post( "/register" )
-            .set( "Content-Type", "application/json" )
-            .send( {
-                email: testData.invalid.email,
-                password: testData.valid.password
-            } )
-            .expect( 400 )
-            .end( function ( err, res ) {
+                    if ( err ) {
+                        return done( err );
+                    }
 
-                if ( err ) {
-                    return done( err );
-                }
+                    expect( res.body ).to.have.a.property( "token" );
 
-                expect( res.body ).to.be.an( "array" ).with.length.equal( 1 );
-                expect( res.body[ 0 ] ).to.have.a.property( "msg", testData.messages.invalidEmail );
+                    done();
 
-                done();
+                } );
 
-            } );
+        } );
 
     } );
+
+
+    describe( "with invalid email", function () {
+
+        it( "responds with 400 and a message", function ( done ) {
+
+            api.post( "/register" )
+                .set( "Content-Type", "application/json" )
+                .send( {
+                    email: testData.invalid.email,
+                    password: testData.valid.password
+                } )
+                .expect( 400 )
+                .end( function ( err, res ) {
+
+                    if ( err ) {
+                        return done( err );
+                    }
+
+                    expect( res.body ).to.be.an( "array" );
+                    expect( res.body.length ).equal( 1 );
+                    expect( res.body[ 0 ] ).to.have.a.property( "msg", testData.messages.invalidEmail );
+
+                    done();
+
+                } );
+
+        } );
+
+    } );
+
 
 } );
