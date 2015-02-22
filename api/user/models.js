@@ -31,7 +31,7 @@ UserSchema.statics.add = function ( newUserData, done ) {
         }
 
         if ( err ) {
-            return done( errors.system( "Database error occurred" ) );
+            return done( err );
         }
 
         return done( null, newUser );
@@ -50,7 +50,7 @@ UserSchema.statics.authenticate = function ( user, done ) {
         _this.findOne( { email: user.email }, function ( err, existingUser ) {
 
             if ( err ) {
-                return cb( errors.system( "Database error occurred" ) );
+                return cb( err );
             }
 
             if ( !existingUser ) {
@@ -68,7 +68,7 @@ UserSchema.statics.authenticate = function ( user, done ) {
         bcrypt.compare( user.password, existingUser.password, function ( err, result ) {
 
             if ( err ) {
-                return cb( errors.system( "System error occurred" ) );
+                return cb( err );
             }
 
             if ( !result ) {
@@ -87,7 +87,7 @@ UserSchema.statics.authenticate = function ( user, done ) {
             return done( err );
         }
 
-        return existingUser;
+        return done( null, existingUser);
 
     } );
 

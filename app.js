@@ -4,6 +4,7 @@ var jwt = require( "express-jwt" );
 var logger = require( "morgan" );
 var bodyParser = require( "body-parser" );
 var databaseUtils = require( "api-utils" ).database;
+var errors = require( "api-utils" ).errors;
 
 
 var routes = require( "./routes/index" );
@@ -22,7 +23,7 @@ var jwtOptions = {
     secret: process.env.JWT_SECRET
 };
 
-app.use( jwt( jwtOptions ).unless( { path: [ "/register" ] } ) );
+app.use( jwt( jwtOptions ).unless( { path: [ "/register", "/authenticate" ] } ) );
 
 app.use( "/", routes );
 
