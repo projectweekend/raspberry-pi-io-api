@@ -23,7 +23,8 @@ var UserSchema = Schema ( {
     key: String,
     subscription: {
         end: Date,
-        level: Number
+        level: Number,
+        rabbitURL: String
     }
 } );
 
@@ -35,6 +36,8 @@ UserSchema.statics.register = function ( newUserData, done ) {
         end: moment().add( 14, "days" ).toDate(),
         level: 1
     };
+
+    // TODO: assign subscription.rabbitURL here
 
     this.create( newUserData, function ( err, newUser ) {
 
