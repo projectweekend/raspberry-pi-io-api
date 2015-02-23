@@ -10,7 +10,8 @@ var api = supertest( app );
 var routes = {
     register: "/register",
     unRegister: "/user",
-    authenticate: "/authenticate"
+    authenticate: "/authenticate",
+    generateKey: "/user/key"
 };
 
 
@@ -28,7 +29,8 @@ var testData = {
         invalidPassword: "Password must be at least 6 characters",
         emailInUse: "Email address already in use",
         invalidCredentials: "Invalid credentials",
-        passwordRequired: "Password is required"
+        passwordRequired: "Password is required",
+        requiresAuthentication: "Requires authentication"
     },
     token: ""
 };
@@ -311,6 +313,31 @@ describe( "Authenticate a user...", function () {
 } );
 
 
+describe( "Generate an access key...", function () {
+
+    it( "responds with 201 and a key", function ( done ) {
+
+        api.post( routes.generateKey )
+            .set( "Content-Type", "application/json" )
+            .set( "Authorization", "Bearer " + testData.token )
+            .expect( 201 )
+            .end( function ( err, res ) {
+
+                if ( err ) {
+                    return done( err );
+                }
+
+                expect( res.body ).to.have.a.property( "key" ).and.not.be.empty;
+
+                return done();
+
+            } );
+
+    } );
+
+} );
+
+
 describe( "Unregister a user...", function () {
 
     it( "responds with 204", function ( done ) {
@@ -324,6 +351,56 @@ describe( "Unregister a user...", function () {
                 if ( err ) {
                     return done( err );
                 }
+
+                return done();
+
+            } );
+
+    } );
+
+} );
+
+
+describe( "Unregister a user with an old token...", function () {
+
+    it( "responds with 401", function ( done ) {
+
+        api.del( routes.unRegister )
+            .set( "Content-Type", "application/json" )
+            .set( "Authorization", "Bearer " + testData.token )
+            .expect( 401 )
+            .end( function ( err, res ) {
+
+                if ( err ) {
+                    return done( err );
+                }
+
+                expect( res.body ).to.have.a.property( "message", testData.messages.requiresAuthentication );
+
+                return done();
+
+            } );
+
+    } );
+
+} );
+
+
+describe( "Generate an access key with an old token...", function () {
+
+    it( "responds with 401 and a message", function ( done ) {
+
+        api.post( routes.generateKey )
+            .set( "Content-Type", "application/json" )
+            .set( "Authorization", "Bearer " + testData.token )
+            .expect( 401 )
+            .end( function ( err, res ) {
+
+                if ( err ) {
+                    return done( err );
+                }
+
+                expect( res.body ).to.have.a.property( "message", testData.messages.requiresAuthentication );
 
                 return done();
 
