@@ -79,3 +79,21 @@ exports.unRegister = function ( req, res, next ) {
     } );
 
 };
+
+
+exports.generateKey = function ( req, res, next ) {
+
+    User.generateKeyById( req.user._id, function ( err, key ) {
+
+        /* istanbul ignore if */
+        if ( err ) {
+            return next( err );
+        }
+
+        return res.status( 201 ).json( {
+            key: key
+        } );
+
+    } );
+
+};

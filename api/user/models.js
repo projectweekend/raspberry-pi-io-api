@@ -126,6 +126,22 @@ UserSchema.statics.unRegister = function ( user, done ) {
 };
 
 
+UserSchema.statics.generateKeyById = function ( id, done ) {
+
+    this.findById( id, function ( err, user ) {
+
+        /* istanbul ignore if */
+        if ( err ) {
+            return done( err );
+        }
+
+        return user.generateKey( done );
+
+    } );
+
+};
+
+
 UserSchema.methods.generateKey = function ( done ) {
 
     var key = uuid.v1();
