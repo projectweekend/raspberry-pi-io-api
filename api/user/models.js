@@ -5,7 +5,6 @@ var moment = require( "moment" );
 var uuid = require( "node-uuid" );
 
 var errors = require( "api-utils" ).errors;
-var authUtils = require( "api-utils" ).authentication;
 
 
 var Schema = mongoose.Schema;
