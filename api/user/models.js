@@ -126,4 +126,23 @@ UserSchema.statics.unRegister = function ( user, done ) {
 };
 
 
+UserSchema.methods.generateKey = function ( done ) {
+
+    var key = uuid.v1();
+
+    this.key = bcrypt.hashSync( key, 8 );
+    this.save( function ( err ) {
+
+        /* istanbul ignore if */
+        if ( err ) {
+            return done( err );
+        }
+
+        return done( null, key );
+
+    } );
+
+};
+
+
 exports.User = mongoose.model( "User", UserSchema );
