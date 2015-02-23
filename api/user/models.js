@@ -1,7 +1,11 @@
 var async = require( "async" );
 var bcrypt = require( "bcrypt" );
 var mongoose = require( "mongoose" );
+var moment = require( "moment" );
+var uuid = require( "node-uuid" );
+
 var errors = require( "api-utils" ).errors;
+var authUtils = require( "api-utils" ).authentication;
 
 
 var Schema = mongoose.Schema;
@@ -16,13 +20,22 @@ var UserSchema = Schema ( {
         unique: true,
         trim: true
     },
-    password: String
+    password: String,
+    key: String,
+    subscription: {
+        end: Date,
+        level: Number
+    }
 } );
 
 
 UserSchema.statics.register = function ( newUserData, done ) {
 
     newUserData.password = bcrypt.hashSync( newUserData.password, 8 );
+    newUserData.subscription = {
+        end: moment().add( 14, "days" ).toDate(),
+        level: 1
+    };
 
     this.create( newUserData, function ( err, newUser ) {
 
