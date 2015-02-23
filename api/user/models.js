@@ -109,6 +109,28 @@ UserSchema.statics.authenticate = function ( user, done ) {
 };
 
 
+UserSchema.statics.detailById = function ( id, done ) {
+
+    var fields = "_id email subscription";
+
+    this.findById( id, fields, function ( err, existingUser ) {
+
+        /* istanbul ignore if */
+        if ( err ) {
+            return done( err );
+        }
+
+        if ( !existingUser ) {
+            return done( errors.auth( "Requires authentication" ) );
+        }
+
+        return done( null, existingUser );
+
+    } );
+
+};
+
+
 UserSchema.statics.unRegister = function ( user, done ) {
 
     this.findOneAndRemove( { email: user.email }, function ( err, existingUser ) {

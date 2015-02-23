@@ -65,11 +65,26 @@ exports.authenticate = function ( req, res, next ) {
 };
 
 
+exports.getDetail = function ( req, res, next ) {
+
+    User.detailById( req.user._id, function ( err, detail ) {
+
+        if ( err ) {
+            console.log( err );
+            return next( err );
+        }
+
+        return res.status( 200 ).json( detail );
+
+    } );
+
+};
+
+
 exports.unRegister = function ( req, res, next ) {
 
     User.unRegister( req.user, function ( err ) {
 
-        /* istanbul ignore if */
         if ( err ) {
             return next( err );
         }
@@ -85,7 +100,6 @@ exports.generateKey = function ( req, res, next ) {
 
     User.generateKeyById( req.user._id, function ( err, key ) {
 
-        /* istanbul ignore if */
         if ( err ) {
             return next( err );
         }

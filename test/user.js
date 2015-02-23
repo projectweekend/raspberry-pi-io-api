@@ -9,6 +9,7 @@ var api = supertest( app );
 
 var routes = {
     register: "/register",
+    getDetail: "/user",
     unRegister: "/user",
     authenticate: "/authenticate",
     generateKey: "/user/key"
@@ -338,6 +339,32 @@ describe( "Generate an access key...", function () {
 } );
 
 
+describe( "Get user detail...", function () {
+
+    it( "responds with 200 and data", function ( done ) {
+
+        api.get( routes.getDetail )
+            .set( "Content-Type", "application/json" )
+            .set( "Authorization", "Bearer " + testData.token )
+            .expect( 200 )
+            .end( function ( err, res ) {
+
+                if ( err ) {
+                    return done( err );
+                }
+
+                expect( res.body ).to.have.a.property( "email", testData.valid.email );
+                expect( res.body ).to.have.a.deep.property( "subscription.level", 1 );
+
+                return done();
+
+            } );
+
+    } );
+
+} );
+
+
 describe( "Unregister a user...", function () {
 
     it( "responds with 204", function ( done ) {
@@ -391,6 +418,31 @@ describe( "Generate an access key with an old token...", function () {
     it( "responds with 401 and a message", function ( done ) {
 
         api.post( routes.generateKey )
+            .set( "Content-Type", "application/json" )
+            .set( "Authorization", "Bearer " + testData.token )
+            .expect( 401 )
+            .end( function ( err, res ) {
+
+                if ( err ) {
+                    return done( err );
+                }
+
+                expect( res.body ).to.have.a.property( "message", testData.messages.requiresAuthentication );
+
+                return done();
+
+            } );
+
+    } );
+
+} );
+
+
+describe( "Get user detail with an old token...", function () {
+
+    it( "responds with 401 and a message", function ( done ) {
+
+        api.get( routes.getDetail )
             .set( "Content-Type", "application/json" )
             .set( "Authorization", "Bearer " + testData.token )
             .expect( 401 )
