@@ -30,16 +30,6 @@ var GPIOConfigSchema = Schema( {
 
 var DeviceSchema = Schema ( {
     id: ObjectId,
-    key: {
-        type: String,
-        required: true,
-        trim: true
-    },
-    rabbitURL: {
-        type: String,
-        required: true,
-        trim: true
-    },
     userEmail: {
         type: String,
         required: true,
