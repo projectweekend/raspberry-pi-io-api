@@ -112,11 +112,15 @@ UserSchema.statics.authenticate = function ( user, done ) {
 
 UserSchema.statics.unRegister = function ( user, done ) {
 
-    this.findOneAndRemove( { email: user.email }, function ( err ) {
+    this.findOneAndRemove( { email: user.email }, function ( err, existingUser ) {
 
         /* istanbul ignore if */
         if ( err ) {
             return done( err );
+        }
+
+        if ( !existingUser ) {
+            return done( errors.auth( "Requires authentication" ) );
         }
 
         return done( null );
@@ -133,6 +137,10 @@ UserSchema.statics.generateKeyById = function ( id, done ) {
         /* istanbul ignore if */
         if ( err ) {
             return done( err );
+        }
+
+        if ( !user ) {
+            return done( errors.auth( "Requires authentication" ) );
         }
 
         return user.generateKey( done );
