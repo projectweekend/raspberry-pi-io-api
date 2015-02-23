@@ -70,7 +70,6 @@ exports.getDetail = function ( req, res, next ) {
     User.detailById( req.user._id, function ( err, detail ) {
 
         if ( err ) {
-            console.log( err );
             return next( err );
         }
 
