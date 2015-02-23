@@ -5,7 +5,7 @@ var Schema = mongoose.Schema;
 var ObjectId = Schema.ObjectId;
 
 
-var GPIOConfigSchema = Schema( {
+var PinConfigSchema = Schema( {
     pin: {
         type: Number,
         required: true
@@ -35,7 +35,7 @@ var DeviceSchema = Schema ( {
         required: true,
         trim: true
     },
-    gpioConfig: [ GPIOConfigSchema ]
+    pinConfig: [ PinConfigSchema ]
 } );
 
 DeviceSchema.index( { key: 1, userEmail: 1 }, { unique: true } );
