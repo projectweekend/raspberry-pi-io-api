@@ -75,6 +75,14 @@ DeviceSchema.statics.canRegisterForUser = function ( user, done ) {
 
 };
 
+
+DeviceSchema.statics.listForUser = function ( user, done ) {
+
+    this.find( { userEmail: user.email }, done );
+
+};
+
+
 DeviceSchema.index( { key: 1, userEmail: 1 }, { unique: true } );
 
 

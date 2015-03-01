@@ -10,8 +10,11 @@ router.post( "/authenticate", user.authenticate );
 
 router.get( "/user", user.getDetail );
 router.delete( "/user", user.unRegister );
+
 router.post( "/user/key", user.generateKey );
+
 router.post( "/user/device", device.register );
+router.get( "/user/device", device.list );
 
 
 module.exports = router;

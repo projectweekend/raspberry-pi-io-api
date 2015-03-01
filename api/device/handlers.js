@@ -71,3 +71,18 @@ exports.register = function ( req, res, next ) {
     } );
 
 };
+
+
+exports.list = function ( req, res, next ) {
+
+    Device.listForUser( req.user, function ( err, devices ) {
+
+        if ( err ) {
+            return next( err );
+        }
+
+        return res.status( 200 ).json( devices );
+
+    } );
+
+};
