@@ -4,7 +4,6 @@ var jwt = require( "express-jwt" );
 var logger = require( "morgan" );
 var bodyParser = require( "body-parser" );
 var databaseUtils = require( "api-utils" ).database;
-var validation = require( "api-utils" ).validation;
 
 
 var routes = require( "./routes/index" );
@@ -14,11 +13,7 @@ var app = express();
 
 app.use( logger( "dev" ) );
 app.use( bodyParser.json() );
-app.use( expressValidator( {
-    customValidators: {
-        isPinConfig: validation.isPinConfig
-    }
-} ) );
+app.use( expressValidator() );
 app.use( bodyParser.urlencoded( {
     extended: false
 } ) );
