@@ -158,13 +158,9 @@ DeviceSchema.statics.addPinConfigForUserAndId = function ( user, deviceId, pinCo
 
 DeviceSchema.statics.listPinConfigForUserAndId = function ( user, deviceId, done ) {
 
-    var query = {
-        userEmail: user.email,
-        _id: deviceId
-    };
+    this.detailForUserAndId( user, deviceId, function ( err, device ) {
 
-    this.findOne( query, function ( err, device ) {
-
+        /* istanbul ignore if */
         if ( err ) {
             return done( err );
         }
@@ -174,6 +170,28 @@ DeviceSchema.statics.listPinConfigForUserAndId = function ( user, deviceId, done
         }
 
         return done( null, device.pinConfig );
+
+    } );
+
+};
+
+
+DeviceSchema.statics.detailPinConfigForUserAndId = function ( user, deviceId, pinId, done ) {
+
+    this.detailForUserAndId( user, deviceId, function ( err, device ) {
+
+        /* istanbul ignore if */
+        if ( err ) {
+            return done( err );
+        }
+
+        if ( !device ) {
+            return done();
+        }
+
+        var pin = device.pinConfig.id( pinId );
+
+        return done( null, pin );
 
     } );
 

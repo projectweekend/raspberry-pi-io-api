@@ -305,6 +305,34 @@ describe( "List pins for device...", function () {
 } );
 
 
+describe( "Detail for a pin...", function () {
+
+    it( "responds with 200 and data", function ( done ) {
+
+        api.get( routes.getList + "/" + testData.deviceId + "/pin/" + testData.pinId )
+            .set( "Content-Type", "application/json" )
+            .set( "Authorization", "Bearer " + testData.token )
+            .expect( 200 )
+            .end( function ( err, res ) {
+
+                if ( err ) {
+                    return done( err );
+                }
+
+                expect( res.body ).to.have.a.property( "_id" ).and.not.be.empty;
+                expect( res.body ).to.have.a.property( "name", testData.pin.valid.name );
+                expect( res.body ).to.have.a.property( "mode", testData.pin.valid.mode );
+                expect( res.body ).to.have.a.property( "initial", "LOW" );
+
+                return done();
+
+            } );
+
+    } );
+
+} );
+
+
 describe( "Remove a device...", function () {
 
     it( "responds with 204", function ( done ) {
