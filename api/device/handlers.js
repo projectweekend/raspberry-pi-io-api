@@ -114,7 +114,9 @@ exports.addPin = function ( req, res, next ) {
 };
 
 
-exports.listPinConfig = function ( req, res, next ) {
+exports.listPins = function ( req, res, next ) {
+
+    Device.listPinConfigForUserAndId( req.user, req.params.deviceId, listResponse( res, next ) );
 
 };
 
