@@ -123,7 +123,7 @@ DeviceSchema.statics.addPinConfigForUserAndId = function ( user, deviceId, pinCo
             }
 
             if ( !device ) {
-                return cb();
+                return cb( null, null );
             }
 
             return cb( null, device );
@@ -133,6 +133,10 @@ DeviceSchema.statics.addPinConfigForUserAndId = function ( user, deviceId, pinCo
     }
 
     function addPinToDevice ( device, cb ) {
+
+        if ( !device ) {
+            return cb( null, null );
+        }
 
         var pin = device.pinConfig.create( pinConfigItem );
 
@@ -191,9 +195,70 @@ DeviceSchema.statics.detailPinConfigForUserAndId = function ( user, deviceId, pi
 
         var pin = device.pinConfig.id( pinId );
 
+        if ( !pin ) {
+            return done();
+        }
+
         return done( null, pin );
 
     } );
+
+};
+
+
+DeviceSchema.statics.removePinConfigForUserAndId = function ( user, deviceId, pinId, done ) {
+
+    var _this = this;
+
+    function findDevice ( cb ) {
+
+        _this.detailForUserAndId( user, deviceId, function ( err, device ) {
+
+            /* istanbul ignore if */
+            if ( err ) {
+                return cb( err );
+            }
+
+            console.log( device );
+
+            if ( !device ) {
+                return cb( null, null );
+            }
+
+            return cb( null, device );
+
+        } );
+
+    }
+
+    function removePinFromDevice ( device, cb ) {
+
+        if ( !device ) {
+            return cb( null, null );
+        }
+
+        var pin = device.pinConfig.id( pinId );
+
+        if ( !pin ) {
+            return cb( null, null );
+        }
+
+        pin.remove();
+
+        device.save( function ( err ) {
+
+            /* istanbul ignore if */
+            if ( err ) {
+                return cb( err );
+            }
+
+            return  cb( null, pin );
+
+        } );
+
+    }
+
+    async.waterfall( [ findDevice, removePinFromDevice ], done );
 
 };
 

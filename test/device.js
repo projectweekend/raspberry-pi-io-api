@@ -333,6 +333,100 @@ describe( "Detail for a pin...", function () {
 } );
 
 
+describe( "Detail for a pin that doesn't exist...", function () {
+
+    it( "responds with 404", function ( done ) {
+
+        api.get( routes.getList + "/" + testData.deviceId + "/pin/not-a-pin" )
+            .set( "Content-Type", "application/json" )
+            .set( "Authorization", "Bearer " + testData.token )
+            .expect( 404 )
+            .end( function ( err ) {
+
+                if ( err ) {
+                    return done( err );
+                }
+
+                return done();
+
+            } );
+
+    } );
+
+} );
+
+
+describe( "Detail for a pin on a device that doesn't exist...", function () {
+
+    it( "responds with 404", function ( done ) {
+
+        api.get( routes.getList + "/does-not-exist/pin/" + testData.pinId )
+            .set( "Content-Type", "application/json" )
+            .set( "Authorization", "Bearer " + testData.token )
+            .expect( 404 )
+            .end( function ( err ) {
+
+                if ( err ) {
+                    return done( err );
+                }
+
+                return done();
+
+            } );
+
+    } );
+
+} );
+
+
+describe( "Remove a pin...", function () {
+
+    it( "responds with 204", function ( done ) {
+
+        api.delete( routes.getList + "/" + testData.deviceId + "/pin/" + testData.pinId )
+            .set( "Content-Type", "application/json" )
+            .set( "Authorization", "Bearer " + testData.token )
+            .expect( 204 )
+            .end( function ( err, res ) {
+
+                if ( err ) {
+                    return done( err );
+                }
+
+                console.log( res.body );
+
+                return done();
+
+            } );
+
+    } );
+
+} );
+
+
+describe( "Remove a pin that doesn't exist...", function () {
+
+    it( "responds with 404", function ( done ) {
+
+        api.delete( routes.getList + "/" + testData.deviceId + "/pin/not-a-pin" )
+            .set( "Content-Type", "application/json" )
+            .set( "Authorization", "Bearer " + testData.token )
+            .expect( 404 )
+            .end( function ( err ) {
+
+                if ( err ) {
+                    return done( err );
+                }
+
+                return done();
+
+            } );
+
+    } );
+
+} );
+
+
 describe( "Remove a device...", function () {
 
     it( "responds with 204", function ( done ) {
@@ -363,6 +457,122 @@ describe( "Remove a device that doesn't exist...", function () {
         api.delete( routes.getList + "/does-not-exist" )
             .set( "Content-Type", "application/json" )
             .set( "Authorization", "Bearer " + testData.token )
+            .expect( 404 )
+            .end( function ( err ) {
+
+                if ( err ) {
+                    return done( err );
+                }
+
+                return done();
+
+            } );
+
+    } );
+
+} );
+
+
+describe( "Detail for a device that was deleted...", function () {
+
+    it( "responds with 404", function ( done ) {
+
+        api.get( routes.getList + "/" + testData.deviceId )
+            .set( "Content-Type", "application/json" )
+            .set( "Authorization", "Bearer " + testData.token )
+            .expect( 404 )
+            .end( function ( err ) {
+
+                if ( err ) {
+                    return done( err );
+                }
+
+                return done();
+
+            } );
+
+    } );
+
+} );
+
+
+describe( "List pins on a device that was deleted...", function () {
+
+    it( "responds with 404", function ( done ) {
+
+        api.get( routes.getList + "/" + testData.deviceId + "/pin" )
+            .set( "Content-Type", "application/json" )
+            .set( "Authorization", "Bearer " + testData.token )
+            .expect( 404 )
+            .end( function ( err ) {
+
+                if ( err ) {
+                    return done( err );
+                }
+
+                return done();
+
+            } );
+
+    } );
+
+} );
+
+
+describe( "Detail for a pin on a device that was deleted...", function () {
+
+    it( "responds with 404", function ( done ) {
+
+        api.get( routes.getList + "/" + testData.deviceId + "/pin/" + testData.pinId )
+            .set( "Content-Type", "application/json" )
+            .set( "Authorization", "Bearer " + testData.token )
+            .expect( 404 )
+            .end( function ( err ) {
+
+                if ( err ) {
+                    return done( err );
+                }
+
+                return done();
+
+            } );
+
+    } );
+
+} );
+
+
+describe( "Remove a pin from a device that was deleted...", function () {
+
+    it( "responds with 404", function ( done ) {
+
+        api.delete( routes.getList + "/" + testData.deviceId + "/pin/" + testData.pinId )
+            .set( "Content-Type", "application/json" )
+            .set( "Authorization", "Bearer " + testData.token )
+            .expect( 404 )
+            .end( function ( err ) {
+
+                if ( err ) {
+                    return done( err );
+                }
+
+                return done();
+
+            } );
+
+    } );
+
+} );
+
+
+describe( "Add a new pin to device that was deleted", function () {
+
+    it( "responds with 404", function ( done ) {
+
+        api.post( "/user/device/" + testData.deviceId + "/pin" )
+            .set( "Content-Type", "application/json" )
+            .set( "Authorization", "Bearer " + testData.token )
+            .send( testData.pin.valid )
             .expect( 404 )
             .end( function ( err ) {
 

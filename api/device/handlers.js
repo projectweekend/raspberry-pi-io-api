@@ -9,7 +9,7 @@ var createdResponse = require( "../utils/responses" ).createdResponse;
 var listResponse = require( "../utils/responses" ).listResponse;
 var detailResponse = require( "../utils/responses" ).detailResponse;
 var deleteResponse = require( "../utils/responses" ).deleteResponse;
-var updateResponse = require( "../utils/responses" ).updateResponse;
+var nestedCreateResponse = require( "../utils/responses" ).nestedCreateResponse;
 
 
 exports.register = function ( req, res, next ) {
@@ -109,14 +109,14 @@ exports.addPin = function ( req, res, next ) {
         return res.status( 400 ).json( validationErrors );
     }
 
-    Device.addPinConfigForUserAndId( req.user, req.params.deviceId, req.body, createdResponse( res, next ) );
+    Device.addPinConfigForUserAndId( req.user, req.params.deviceId, req.body, nestedCreateResponse( res, next ) );
 
 };
 
 
 exports.listPins = function ( req, res, next ) {
 
-    Device.listPinConfigForUserAndId( req.user, req.params.deviceId, listResponse( res, next ) );
+    Device.listPinConfigForUserAndId( req.user, req.params.deviceId, detailResponse( res, next ) );
 
 };
 
@@ -128,11 +128,8 @@ exports.detailPin = function ( req, res, next ) {
 };
 
 
-exports.updatePinConfig = function ( req, res, next ) {
+exports.removePin = function ( req, res, next ) {
 
-};
-
-
-exports.deletePinConfig = function ( req, res, next ) {
+    Device.removePinConfigForUserAndId( req.user, req.params.deviceId, req.params.pinId, deleteResponse( res, next ) );
 
 };

@@ -21,6 +21,7 @@ router.delete( "/user/device/:deviceId", device.remove );
 router.post( "/user/device/:deviceId/pin", device.addPin );
 router.get( "/user/device/:deviceId/pin", device.listPins );
 router.get( "/user/device/:deviceId/pin/:pinId", device.detailPin );
+router.delete( "/user/device/:deviceId/pin/:pinId", device.removePin );
 
 
 module.exports = router;
