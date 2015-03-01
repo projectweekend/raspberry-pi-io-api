@@ -1,3 +1,4 @@
+var async = require( "async" );
 var mongoose = require( "mongoose" );
 
 
@@ -99,6 +100,54 @@ DeviceSchema.statics.removeForUserAndId = function ( user, deviceId, done ) {
         userEmail: user.email,
         _id: deviceId
     }, done );
+
+};
+
+
+DeviceSchema.statics.addPinConfigForUserAndId = function ( user, deviceId, pinConfigItem, done ) {
+
+    var _this = this;
+
+    function findDevice ( cb ) {
+
+        var query = {
+            userEmail: user.email,
+            _id: deviceId
+        };
+
+        _this.findOne( query, function ( err, device ) {
+
+            if ( err ) {
+                return cb( err );
+            }
+
+            if ( !device ) {
+                return cb();
+            }
+
+            return cb( null, device );
+
+        } );
+
+    }
+
+    function addPinToDevice ( device, cb ) {
+
+        var pin = device.pinConfig.create( pinConfigItem );
+
+        device.save( function ( err ) {
+
+            if ( err ) {
+                return cb( err );
+            }
+
+            return cb( null, pin );
+
+        } );
+
+    }
+
+    async.waterfall( [ findDevice, addPinToDevice ], done );
 
 };
 

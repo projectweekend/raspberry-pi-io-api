@@ -21,6 +21,22 @@ var testData = {
         email: "test@test.com",
         password: "123456"
     },
+    pin: {
+        valid: {
+            pin: 18,
+            name: "Red LED",
+            mode: "OUT"
+        },
+        invalid: {
+            pin: "not a number",
+            name: "",
+            mode: "not valid",
+            initial: "not valid",
+            resistor: "not valid",
+            pinEvent: "not valid",
+            bounce: "not a number"
+        }
+    },
     token: "",
     deviceId: ""
 };
@@ -190,6 +206,62 @@ describe( "Detail for a device that doesn't exist...", function () {
                 if ( err ) {
                     return done( err );
                 }
+
+                return done();
+
+            } );
+
+    } );
+
+} );
+
+
+describe( "Add a new pin config to device with valid data", function () {
+
+    it( "responds with 201 and data", function ( done ) {
+
+        api.post( "/user/device/" + testData.deviceId + "/pin" )
+            .set( "Content-Type", "application/json" )
+            .set( "Authorization", "Bearer " + testData.token )
+            .send( testData.pin.valid )
+            .expect( 201 )
+            .end( function ( err, res ) {
+
+                if ( err ) {
+                    return done( err );
+                }
+
+                expect( res.body ).to.have.a.property( "_id" ).and.not.be.empty;
+                expect( res.body ).to.have.a.property( "name", testData.pin.valid.name );
+                expect( res.body ).to.have.a.property( "mode", testData.pin.valid.mode );
+                expect( res.body ).to.have.a.property( "initial", "LOW" );
+
+                return done();
+
+            } );
+
+    } );
+
+} );
+
+
+describe( "Add a new pin config to device with invalid data", function () {
+
+    it( "responds with 400", function ( done ) {
+
+        api.post( "/user/device/" + testData.deviceId + "/pin" )
+            .set( "Content-Type", "application/json" )
+            .set( "Authorization", "Bearer " + testData.token )
+            .send( testData.pin.invalid )
+            .expect( 400 )
+            .end( function ( err, res ) {
+
+                if ( err ) {
+                    return done( err );
+                }
+
+                expect( res.body ).to.be.an( "array" );
+                expect( res.body.length ).to.equal( 7 );
 
                 return done();
 
