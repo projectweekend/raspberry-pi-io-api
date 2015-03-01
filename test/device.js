@@ -150,7 +150,7 @@ describe( "List devices...", function () {
 } );
 
 
-describe( "Detail for a device", function () {
+describe( "Detail for a device...", function () {
 
     it( "responds with 200 and data", function ( done ) {
 
@@ -177,11 +177,57 @@ describe( "Detail for a device", function () {
 } );
 
 
-describe( "Detail for a device that doesn't exist", function () {
+describe( "Detail for a device that doesn't exist...", function () {
 
     it( "responds with 404", function ( done ) {
 
         api.get( routes.getList + "/does-not-exist" )
+            .set( "Content-Type", "application/json" )
+            .set( "Authorization", "Bearer " + testData.token )
+            .expect( 404 )
+            .end( function ( err ) {
+
+                if ( err ) {
+                    return done( err );
+                }
+
+                return done();
+
+            } );
+
+    } );
+
+} );
+
+
+describe( "Remove a device...", function () {
+
+    it( "responds with 204", function ( done ) {
+
+        api.delete( routes.getList + "/" + testData.deviceId )
+            .set( "Content-Type", "application/json" )
+            .set( "Authorization", "Bearer " + testData.token )
+            .expect( 204 )
+            .end( function ( err ) {
+
+                if ( err ) {
+                    return done( err );
+                }
+
+                return done();
+
+            } );
+
+    } );
+
+} );
+
+
+describe( "Remove a device that doesn't exist...", function () {
+
+    it( "responds with 404", function ( done ) {
+
+        api.delete( routes.getList + "/does-not-exist" )
             .set( "Content-Type", "application/json" )
             .set( "Authorization", "Bearer " + testData.token )
             .expect( 404 )

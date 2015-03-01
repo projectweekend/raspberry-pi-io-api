@@ -93,7 +93,17 @@ DeviceSchema.statics.detailForUserAndId = function ( user, deviceId, done ) {
 };
 
 
-DeviceSchema.index( { key: 1, userEmail: 1 }, { unique: true } );
+DeviceSchema.statics.removeForUserAndId = function ( user, deviceId, done ) {
+
+    this.findOneAndRemove( {
+        userEmail: user.email,
+        _id: deviceId
+    }, done );
+
+};
+
+
+DeviceSchema.index( { userEmail: 1 } );
 
 
 exports.Device = mongoose.model( "Device", DeviceSchema );

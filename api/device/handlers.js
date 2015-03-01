@@ -8,6 +8,7 @@ var Device = require( "./models" ).Device;
 var createdResponse = require( "../utils/responses" ).createdResponse;
 var listResponse = require( "../utils/responses" ).listResponse;
 var detailResponse = require( "../utils/responses" ).detailResponse;
+var deleteResponse = require( "../utils/responses" ).deleteResponse;
 
 
 exports.register = function ( req, res, next ) {
@@ -80,5 +81,12 @@ exports.list = function ( req, res, next ) {
 exports.detail = function ( req, res, next ) {
 
     Device.detailForUserAndId( req.user, req.params.deviceId, detailResponse( res, next ) );
+
+};
+
+
+exports.remove = function ( req, res, next ) {
+
+    Device.removeForUserAndId( req.user, req.params.deviceId, deleteResponse( res, next ) );
 
 };
