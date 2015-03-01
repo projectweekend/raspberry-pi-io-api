@@ -83,6 +83,16 @@ DeviceSchema.statics.listForUser = function ( user, done ) {
 };
 
 
+DeviceSchema.statics.detailForUserAndId = function ( user, deviceId, done ) {
+
+    this.findOne( {
+        userEmail: user.email,
+        _id: deviceId
+    }, done );
+
+};
+
+
 DeviceSchema.index( { key: 1, userEmail: 1 }, { unique: true } );
 
 

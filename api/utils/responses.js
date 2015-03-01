@@ -21,13 +21,13 @@ function baseDetailUpdateDeleteResponse ( successStatus, res, next ) {
 
     return function ( err, data ) {
 
+        if ( ( err && err.name === "CastError" ) || !data ) {
+            return next( errors.resourceNotFound() );
+        }
+
         /* istanbul ignore if */
         if ( err ) {
             return next( err );
-        }
-
-        if ( !data ) {
-            return next( errors.resourceNotFound() );
         }
 
         return res.status( successStatus ).json( data );

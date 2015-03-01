@@ -15,6 +15,7 @@ router.post( "/user/key", user.generateKey );
 
 router.post( "/user/device", device.register );
 router.get( "/user/device", device.list );
+router.get( "/user/device/:deviceId", device.detail );
 
 
 module.exports = router;

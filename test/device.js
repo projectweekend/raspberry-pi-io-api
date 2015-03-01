@@ -21,7 +21,8 @@ var testData = {
         email: "test@test.com",
         password: "123456"
     },
-    token: ""
+    token: "",
+    deviceId: ""
 };
 
 
@@ -137,6 +138,58 @@ describe( "List devices...", function () {
                 expect( res.body[ 0 ] ).to.have.a.property( "_id" ).and.not.be.empty;
                 expect( res.body[ 0 ] ).to.have.a.property( "userEmail", testData.user.email );
                 expect( res.body[ 0 ] ).to.have.a.property( "pinConfig" ).and.be.empty;
+
+                testData.deviceId = res.body[ 0 ]._id;
+
+                return done();
+
+            } );
+
+    } );
+
+} );
+
+
+describe( "Detail for a device", function () {
+
+    it( "responds with 200 and data", function ( done ) {
+
+        api.get( routes.getList + "/" + testData.deviceId )
+            .set( "Content-Type", "application/json" )
+            .set( "Authorization", "Bearer " + testData.token )
+            .expect( 200 )
+            .end( function ( err, res ) {
+
+                if ( err ) {
+                    return done( err );
+                }
+
+                expect( res.body ).to.have.a.property( "_id" ).and.not.be.empty;
+                expect( res.body ).to.have.a.property( "userEmail", testData.user.email );
+                expect( res.body ).to.have.a.property( "pinConfig" ).and.be.empty;
+
+                return done();
+
+            } );
+
+    } );
+
+} );
+
+
+describe( "Detail for a device that doesn't exist", function () {
+
+    it( "responds with 404", function ( done ) {
+
+        api.get( routes.getList + "/does-not-exist" )
+            .set( "Content-Type", "application/json" )
+            .set( "Authorization", "Bearer " + testData.token )
+            .expect( 404 )
+            .end( function ( err ) {
+
+                if ( err ) {
+                    return done( err );
+                }
 
                 return done();
 
