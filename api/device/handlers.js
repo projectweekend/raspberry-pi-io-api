@@ -5,6 +5,10 @@ var errors = require( "api-utils" ).errors;
 var User = require( "../user/models" ).User;
 var Device = require( "./models" ).Device;
 
+var createdResponse = require( "../utils/responses" ).createdResponse;
+var listResponse = require( "../utils/responses" ).listResponse;
+var detailResponse = require( "../utils/responses" ).detailResponse;
+
 
 exports.register = function ( req, res, next ) {
 
@@ -59,30 +63,22 @@ exports.register = function ( req, res, next ) {
 
     }
 
-    async.waterfall( [ verifyUser, verifySubscription, registerDevice ], function ( err, device ) {
+    var tasks = [ verifyUser, verifySubscription, registerDevice ];
 
-        /* istanbul ignore if */
-        if ( err ) {
-            return next( err );
-        }
-
-        return res.status( 201 ).json( device );
-
-    } );
+    async.waterfall( tasks, createdResponse( res, next ) );
 
 };
 
 
 exports.list = function ( req, res, next ) {
 
-    Device.listForUser( req.user, function ( err, devices ) {
+    Device.listForUser( req.user, listResponse( res, next ) );
 
-        if ( err ) {
-            return next( err );
-        }
+};
 
-        return res.status( 200 ).json( devices );
 
-    } );
+exports.detail = function ( req, res, next ) {
+
+    Device.detailForUserAndId( req.user, req.params.deviceId, detailResponse( res, next ) );
 
 };
