@@ -174,6 +174,33 @@ UserSchema.statics.generateKeyById = function ( id, done ) {
 };
 
 
+UserSchema.statics.verifySubscriptionByUserKey = function ( userKey, done ) {
+
+    var query = {
+        key: userKey,
+        "subscription.end": {
+            $gt: Date.now()
+        }
+    };
+
+    this.findOne( query, function ( err, user ) {
+
+        /* istanbul ignore if */
+        if ( err ) {
+            return done( err );
+        }
+
+        if ( !user ) {
+            return done( errors.notAuthorized( "Subscription not valid" ) );
+        }
+
+        return done( null, user );
+
+    } );
+
+};
+
+
 UserSchema.methods.generateKey = function ( done ) {
 
     var key = uuid.v1();
