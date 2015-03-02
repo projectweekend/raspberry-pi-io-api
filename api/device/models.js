@@ -219,8 +219,6 @@ DeviceSchema.statics.removePinConfigForUserAndId = function ( user, deviceId, pi
                 return cb( err );
             }
 
-            console.log( device );
-
             if ( !device ) {
                 return cb( null, null );
             }

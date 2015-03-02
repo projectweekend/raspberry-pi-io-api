@@ -1,5 +1,4 @@
-var errors = require( "./errors" );
-
+var errors = require( "api-utils" ).errors;
 
 function baseListCreateResponse ( successStatus, res, next ) {
 
@@ -22,7 +21,7 @@ function baseDetailUpdateDeleteResponse ( successStatus, res, next ) {
     return function ( err, data ) {
 
         if ( ( err && err.name === "CastError" ) || !data ) {
-            return next( errors.resourceNotFound() );
+            return next( errors.resourceNotFound( "Not found" ) );
         }
 
         /* istanbul ignore if */
