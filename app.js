@@ -22,7 +22,8 @@ var jwtOptions = {
     secret: process.env.JWT_SECRET
 };
 
-app.use( jwt( jwtOptions ).unless( { path: [ "/register", "/authenticate" ] } ) );
+var authNotRequired = [ "/register", "/authenticate", "/pin-config" ];
+app.use( jwt( jwtOptions ).unless( { path: authNotRequired } ) );
 
 app.use( "/", routes );
 
