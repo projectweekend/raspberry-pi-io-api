@@ -1,5 +1,6 @@
 var async = require( "async" );
 var mongoose = require( "mongoose" );
+var errors = require( "api-utils" ).errors;
 
 
 var Schema = mongoose.Schema;
@@ -71,6 +72,32 @@ DeviceSchema.statics.canRegisterForUser = function ( user, done ) {
         }
 
         return done( null, user.subscription.level > count );
+
+    } );
+
+};
+
+
+DeviceSchema.statics.verifyForUserAndId = function ( user, deviceId, done ) {
+
+    var query = {
+        userEmail: user.email,
+        _id: deviceId
+    };
+
+
+    this.findOne( query, function ( err, device ) {
+
+        /* istanbul ignore if */
+        if ( err ) {
+            return done( err );
+        }
+
+        if ( !device ) {
+            return done( errors.notAuthorized( "Device not valid" ) );
+        }
+
+        return done( null, device );
 
     } );
 
