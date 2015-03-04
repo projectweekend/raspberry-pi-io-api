@@ -59,6 +59,7 @@ describe( "Register a new user...", function () {
 
             api.post( routes.register )
                 .set( "Content-Type", "application/json" )
+                .set( "SYSTEM-API-KEY", "fakeapikey" )
                 .send( {
                     email: testData.valid.email,
                     password: testData.valid.password
@@ -88,6 +89,7 @@ describe( "Register a new user...", function () {
 
             api.post( routes.register )
                 .set( "Content-Type", "application/json" )
+                .set( "SYSTEM-API-KEY", "fakeapikey" )
                 .send( {
                     email: testData.invalid.email,
                     password: testData.valid.password
@@ -117,6 +119,7 @@ describe( "Register a new user...", function () {
 
             api.post( routes.register )
                 .set( "Content-Type", "application/json" )
+                .set( "SYSTEM-API-KEY", "fakeapikey" )
                 .send( {
                     email: testData.valid.email,
                     password: testData.invalid.password
@@ -146,6 +149,7 @@ describe( "Register a new user...", function () {
 
             api.post( routes.register )
                 .set( "Content-Type", "application/json" )
+                .set( "SYSTEM-API-KEY", "fakeapikey" )
                 .send( {
                     email: testData.valid.email,
                     password: testData.valid.password
@@ -178,6 +182,7 @@ describe( "Authenticate a user...", function () {
 
             api.post( routes.authenticate )
                 .set( "Content-Type", "application/json" )
+                .set( "SYSTEM-API-KEY", "fakeapikey" )
                 .send( {
                     email: testData.valid.email,
                     password: testData.valid.password
@@ -205,6 +210,7 @@ describe( "Authenticate a user...", function () {
 
             api.post( routes.authenticate )
                 .set( "Content-Type", "application/json" )
+                .set( "SYSTEM-API-KEY", "fakeapikey" )
                 .send( {
                     email: "not@registered.com",
                     password: testData.valid.password
@@ -232,6 +238,7 @@ describe( "Authenticate a user...", function () {
 
             api.post( routes.authenticate )
                 .set( "Content-Type", "application/json" )
+                .set( "SYSTEM-API-KEY", "fakeapikey" )
                 .send( {
                     email: testData.valid.email,
                     password: "badpassword"
@@ -259,6 +266,7 @@ describe( "Authenticate a user...", function () {
 
             api.post( routes.authenticate )
                 .set( "Content-Type", "application/json" )
+                .set( "SYSTEM-API-KEY", "fakeapikey" )
                 .send( {
                     email: testData.invalid.email,
                     password: testData.valid.password
@@ -288,6 +296,7 @@ describe( "Authenticate a user...", function () {
 
             api.post( routes.authenticate )
                 .set( "Content-Type", "application/json" )
+                .set( "SYSTEM-API-KEY", "fakeapikey" )
                 .send( {
                     email: testData.valid.email,
                     password: ""
@@ -320,6 +329,7 @@ describe( "Generate an access key...", function () {
 
         api.post( routes.generateKey )
             .set( "Content-Type", "application/json" )
+            .set( "SYSTEM-API-KEY", "fakeapikey" )
             .set( "Authorization", "Bearer " + testData.token )
             .expect( 201 )
             .end( function ( err, res ) {
@@ -345,6 +355,7 @@ describe( "Get user detail...", function () {
 
         api.get( routes.getDetail )
             .set( "Content-Type", "application/json" )
+            .set( "SYSTEM-API-KEY", "fakeapikey" )
             .set( "Authorization", "Bearer " + testData.token )
             .expect( 200 )
             .end( function ( err, res ) {
@@ -371,6 +382,7 @@ describe( "Unregister a user...", function () {
 
         api.del( routes.unRegister )
             .set( "Content-Type", "application/json" )
+            .set( "SYSTEM-API-KEY", "fakeapikey" )
             .set( "Authorization", "Bearer " + testData.token )
             .expect( 204 )
             .end( function ( err ) {
@@ -394,6 +406,7 @@ describe( "Unregister a user with an old token...", function () {
 
         api.del( routes.unRegister )
             .set( "Content-Type", "application/json" )
+            .set( "SYSTEM-API-KEY", "fakeapikey" )
             .set( "Authorization", "Bearer " + testData.token )
             .expect( 401 )
             .end( function ( err, res ) {
@@ -419,6 +432,7 @@ describe( "Generate an access key with an old token...", function () {
 
         api.post( routes.generateKey )
             .set( "Content-Type", "application/json" )
+            .set( "SYSTEM-API-KEY", "fakeapikey" )
             .set( "Authorization", "Bearer " + testData.token )
             .expect( 401 )
             .end( function ( err, res ) {
@@ -444,6 +458,7 @@ describe( "Get user detail with an old token...", function () {
 
         api.get( routes.getDetail )
             .set( "Content-Type", "application/json" )
+            .set( "SYSTEM-API-KEY", "fakeapikey" )
             .set( "Authorization", "Bearer " + testData.token )
             .expect( 401 )
             .end( function ( err, res ) {

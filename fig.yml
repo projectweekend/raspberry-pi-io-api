@@ -20,3 +20,4 @@ web:
         NODE_ENV: development
         JWT_SECRET: fakeToken
         JWT_EXPIRES: 20160
+        SYSTEM_API_KEY: fakeapikey

@@ -77,6 +77,7 @@ before( function ( done ) {
 
         api.post( routes.registerUser )
             .set( "Content-Type", "application/json" )
+            .set( "SYSTEM-API-KEY", "fakeapikey" )
             .send( {
                 email: testData.user.email,
                 password: testData.user.password
@@ -115,6 +116,7 @@ describe( "Register a new device...", function () {
 
         api.post( routes.registerDevice )
             .set( "Content-Type", "application/json" )
+            .set( "SYSTEM-API-KEY", "fakeapikey" )
             .set( "Authorization", "Bearer " + testData.token )
             .expect( 201 )
             .end( function ( err, res ) {
@@ -142,6 +144,7 @@ describe( "List devices...", function () {
 
         api.get( routes.getList )
             .set( "Content-Type", "application/json" )
+            .set( "SYSTEM-API-KEY", "fakeapikey" )
             .set( "Authorization", "Bearer " + testData.token )
             .expect( 200 )
             .end( function ( err, res ) {
@@ -173,6 +176,7 @@ describe( "Detail for a device...", function () {
 
         api.get( routes.getList + "/" + testData.deviceId )
             .set( "Content-Type", "application/json" )
+            .set( "SYSTEM-API-KEY", "fakeapikey" )
             .set( "Authorization", "Bearer " + testData.token )
             .expect( 200 )
             .end( function ( err, res ) {
@@ -200,6 +204,7 @@ describe( "Detail for a device that doesn't exist...", function () {
 
         api.get( routes.getList + "/does-not-exist" )
             .set( "Content-Type", "application/json" )
+            .set( "SYSTEM-API-KEY", "fakeapikey" )
             .set( "Authorization", "Bearer " + testData.token )
             .expect( 404 )
             .end( function ( err ) {
@@ -223,6 +228,7 @@ describe( "Add a new pin config to device with valid data", function () {
 
         api.post( "/user/device/" + testData.deviceId + "/pin" )
             .set( "Content-Type", "application/json" )
+            .set( "SYSTEM-API-KEY", "fakeapikey" )
             .set( "Authorization", "Bearer " + testData.token )
             .send( testData.pin.valid )
             .expect( 201 )
@@ -252,6 +258,7 @@ describe( "Add a new pin config to device with invalid data", function () {
 
         api.post( "/user/device/" + testData.deviceId + "/pin" )
             .set( "Content-Type", "application/json" )
+            .set( "SYSTEM-API-KEY", "fakeapikey" )
             .set( "Authorization", "Bearer " + testData.token )
             .send( testData.pin.invalid )
             .expect( 400 )
@@ -279,6 +286,7 @@ describe( "List pins for device...", function () {
 
         api.get( "/user/device/" + testData.deviceId + "/pin" )
             .set( "Content-Type", "application/json" )
+            .set( "SYSTEM-API-KEY", "fakeapikey" )
             .set( "Authorization", "Bearer " + testData.token )
             .expect( 200 )
             .end( function ( err, res ) {
@@ -311,6 +319,7 @@ describe( "Detail for a pin...", function () {
 
         api.get( routes.getList + "/" + testData.deviceId + "/pin/" + testData.pinId )
             .set( "Content-Type", "application/json" )
+            .set( "SYSTEM-API-KEY", "fakeapikey" )
             .set( "Authorization", "Bearer " + testData.token )
             .expect( 200 )
             .end( function ( err, res ) {
@@ -339,6 +348,7 @@ describe( "Detail for a pin that doesn't exist...", function () {
 
         api.get( routes.getList + "/" + testData.deviceId + "/pin/not-a-pin" )
             .set( "Content-Type", "application/json" )
+            .set( "SYSTEM-API-KEY", "fakeapikey" )
             .set( "Authorization", "Bearer " + testData.token )
             .expect( 404 )
             .end( function ( err ) {
@@ -362,6 +372,7 @@ describe( "Detail for a pin on a device that doesn't exist...", function () {
 
         api.get( routes.getList + "/does-not-exist/pin/" + testData.pinId )
             .set( "Content-Type", "application/json" )
+            .set( "SYSTEM-API-KEY", "fakeapikey" )
             .set( "Authorization", "Bearer " + testData.token )
             .expect( 404 )
             .end( function ( err ) {
@@ -385,6 +396,7 @@ describe( "Remove a pin...", function () {
 
         api.delete( routes.getList + "/" + testData.deviceId + "/pin/" + testData.pinId )
             .set( "Content-Type", "application/json" )
+            .set( "SYSTEM-API-KEY", "fakeapikey" )
             .set( "Authorization", "Bearer " + testData.token )
             .expect( 204 )
             .end( function ( err ) {
@@ -408,6 +420,7 @@ describe( "Remove a pin that doesn't exist...", function () {
 
         api.delete( routes.getList + "/" + testData.deviceId + "/pin/not-a-pin" )
             .set( "Content-Type", "application/json" )
+            .set( "SYSTEM-API-KEY", "fakeapikey" )
             .set( "Authorization", "Bearer " + testData.token )
             .expect( 404 )
             .end( function ( err ) {
@@ -431,6 +444,7 @@ describe( "Remove a device...", function () {
 
         api.delete( routes.getList + "/" + testData.deviceId )
             .set( "Content-Type", "application/json" )
+            .set( "SYSTEM-API-KEY", "fakeapikey" )
             .set( "Authorization", "Bearer " + testData.token )
             .expect( 204 )
             .end( function ( err ) {
@@ -454,6 +468,7 @@ describe( "Remove a device that doesn't exist...", function () {
 
         api.delete( routes.getList + "/does-not-exist" )
             .set( "Content-Type", "application/json" )
+            .set( "SYSTEM-API-KEY", "fakeapikey" )
             .set( "Authorization", "Bearer " + testData.token )
             .expect( 404 )
             .end( function ( err ) {
@@ -477,6 +492,7 @@ describe( "Detail for a device that was deleted...", function () {
 
         api.get( routes.getList + "/" + testData.deviceId )
             .set( "Content-Type", "application/json" )
+            .set( "SYSTEM-API-KEY", "fakeapikey" )
             .set( "Authorization", "Bearer " + testData.token )
             .expect( 404 )
             .end( function ( err ) {
@@ -500,6 +516,7 @@ describe( "List pins on a device that was deleted...", function () {
 
         api.get( routes.getList + "/" + testData.deviceId + "/pin" )
             .set( "Content-Type", "application/json" )
+            .set( "SYSTEM-API-KEY", "fakeapikey" )
             .set( "Authorization", "Bearer " + testData.token )
             .expect( 404 )
             .end( function ( err ) {
@@ -523,6 +540,7 @@ describe( "Detail for a pin on a device that was deleted...", function () {
 
         api.get( routes.getList + "/" + testData.deviceId + "/pin/" + testData.pinId )
             .set( "Content-Type", "application/json" )
+            .set( "SYSTEM-API-KEY", "fakeapikey" )
             .set( "Authorization", "Bearer " + testData.token )
             .expect( 404 )
             .end( function ( err ) {
@@ -546,6 +564,7 @@ describe( "Remove a pin from a device that was deleted...", function () {
 
         api.delete( routes.getList + "/" + testData.deviceId + "/pin/" + testData.pinId )
             .set( "Content-Type", "application/json" )
+            .set( "SYSTEM-API-KEY", "fakeapikey" )
             .set( "Authorization", "Bearer " + testData.token )
             .expect( 404 )
             .end( function ( err ) {
@@ -569,6 +588,7 @@ describe( "Add a new pin to device that was deleted", function () {
 
         api.post( "/user/device/" + testData.deviceId + "/pin" )
             .set( "Content-Type", "application/json" )
+            .set( "SYSTEM-API-KEY", "fakeapikey" )
             .set( "Authorization", "Bearer " + testData.token )
             .send( testData.pin.valid )
             .expect( 404 )

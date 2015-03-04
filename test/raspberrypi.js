@@ -65,6 +65,7 @@ describe( "Testing pin config for Raspberry Pi", function () {
 
             api.post( routes.registerUser )
                 .set( "Content-Type", "application/json" )
+                .set( "SYSTEM-API-KEY", "fakeapikey" )
                 .send( {
                     email: testData.user.email,
                     password: testData.user.password
@@ -88,6 +89,7 @@ describe( "Testing pin config for Raspberry Pi", function () {
 
             api.post( routes.generateKey )
                 .set( "Content-Type", "application/json" )
+                .set( "SYSTEM-API-KEY", "fakeapikey" )
                 .set( "Authorization", "Bearer " + testData.token )
                 .expect( 201 )
                 .end( function ( err, res ) {
@@ -108,6 +110,7 @@ describe( "Testing pin config for Raspberry Pi", function () {
 
             api.post( routes.registerDevice )
                 .set( "Content-Type", "application/json" )
+                .set( "SYSTEM-API-KEY", "fakeapikey" )
                 .set( "Authorization", "Bearer " + testData.token )
                 .expect( 201 )
                 .end( function ( err, res ) {
