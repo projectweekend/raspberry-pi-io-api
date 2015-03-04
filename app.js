@@ -4,6 +4,7 @@ var jwt = require( "express-jwt" );
 var logger = require( "morgan" );
 var bodyParser = require( "body-parser" );
 var databaseUtils = require( "api-utils" ).database;
+var authUtils = require( "api-utils" ).authentication;
 
 
 var routes = require( "./routes/index" );
@@ -17,6 +18,8 @@ app.use( expressValidator() );
 app.use( bodyParser.urlencoded( {
     extended: false
 } ) );
+
+app.use( authUtils.systemAPIKey( [ "/pin-config" ] ) );
 
 var jwtOptions = {
     secret: process.env.JWT_SECRET
