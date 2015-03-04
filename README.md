@@ -109,3 +109,19 @@
 * `401` if not authenticated
 * `403` if `SYSTEM-API-KEY` is missing
 
+
+### Register a new device
+
+### List devices
+
+### View detail of a single device
+
+### Remove a device
+
+### Add a pin configuration to a device
+
+### List pin configurations for a device
+
+### View detail for a single pin configuration
+
+### Remove a pin configuration from a device
