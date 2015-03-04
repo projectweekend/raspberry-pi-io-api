@@ -64,13 +64,6 @@ exports.detailResponse = function ( res, next ) {
 };
 
 
-exports.updateResponse = function ( res, next ) {
-
-    return baseDetailUpdateDeleteResponse( 200, res, next );
-
-};
-
-
 exports.deleteResponse = function ( res, next ) {
 
     return baseDetailUpdateDeleteResponse( 204, res, next );

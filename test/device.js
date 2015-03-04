@@ -387,13 +387,11 @@ describe( "Remove a pin...", function () {
             .set( "Content-Type", "application/json" )
             .set( "Authorization", "Bearer " + testData.token )
             .expect( 204 )
-            .end( function ( err, res ) {
+            .end( function ( err ) {
 
                 if ( err ) {
                     return done( err );
                 }
-
-                console.log( res.body );
 
                 return done();
 

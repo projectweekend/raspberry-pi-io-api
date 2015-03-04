@@ -88,13 +88,13 @@ DeviceSchema.statics.verifyForUserAndId = function ( user, deviceId, done ) {
 
     this.findOne( query, function ( err, device ) {
 
+        if ( ( err && err.name === "CastError" ) || !device ) {
+            return done( errors.notAuthorized( "Device not valid" ) );
+        }
+
         /* istanbul ignore if */
         if ( err ) {
             return done( err );
-        }
-
-        if ( !device ) {
-            return done( errors.notAuthorized( "Device not valid" ) );
         }
 
         return done( null, device );

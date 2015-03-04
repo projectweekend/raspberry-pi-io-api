@@ -174,10 +174,10 @@ UserSchema.statics.generateKeyById = function ( id, done ) {
 };
 
 
-UserSchema.statics.verifySubscriptionByUserKey = function ( userKey, done ) {
+UserSchema.statics.verifySubscriptionByUserEmail = function ( userEmail, done ) {
 
     var query = {
-        key: userKey,
+        email: userEmail,
         "subscription.end": {
             $gt: Date.now()
         }
@@ -195,6 +195,26 @@ UserSchema.statics.verifySubscriptionByUserKey = function ( userKey, done ) {
         }
 
         return done( null, user );
+
+    } );
+
+};
+
+
+UserSchema.methods.isKeyValid = function ( key, done ) {
+
+    bcrypt.compare( key, this.key, function ( err, result ) {
+
+        /* istanbul ignore if */
+        if ( err ) {
+            return done( err );
+        }
+
+        if ( !result ) {
+            return done( errors.auth( "Invalid user key" ) );
+        }
+
+        return done( null );
 
     } );
 
