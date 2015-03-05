@@ -164,8 +164,8 @@ describe( "Testing pin config for Raspberry Pi", function () {
                         return done( err );
                     }
 
-                    expect( res.body ).to.be.an( "array" );
-                    expect( res.body.length ).to.be.equal( 0 );
+                    expect( res.body ).to.have.a.property( "pinConfig" ).and.be.an( "array" );
+                    expect( res.body.pinConfig.length ).equal( 0 );
 
                     return done();
 

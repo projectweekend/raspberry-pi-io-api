@@ -18,7 +18,9 @@ exports.pinConfig = function ( req, res, next ) {
     }
 
     function verifyUser ( done ) {
+
         User.verifySubscriptionByUserEmail( userEmail, done );
+
     }
 
     function verifyUserKey ( user, done ) {
@@ -36,14 +38,30 @@ exports.pinConfig = function ( req, res, next ) {
     }
 
     function verifyDevice ( user, done ) {
-        Device.verifyForUserAndId( user, deviceId, done );
+
+        Device.verifyForUserAndId( user, deviceId, function ( err, device ) {
+
+            if ( err ) {
+                return done( err );
+            }
+
+            return done( null, user, device );
+
+        } );
+
     }
 
-    function getPinConfig ( device, done ) {
-        return done( null, device.pinConfig );
+    function prepareResponse ( user, device, done ) {
+
+        var response = {
+            rabbitURL: user.subscription.rabbitURL,
+            pinConfig: device.pinConfig
+        };
+
+        return done( null, response );
     }
 
-    var tasks = [ verifyUser, verifyUserKey, verifyDevice, getPinConfig ];
+    var tasks = [ verifyUser, verifyUserKey, verifyDevice, prepareResponse ];
 
     async.waterfall( tasks, listResponse( res, next ) );
 
