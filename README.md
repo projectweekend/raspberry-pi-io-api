@@ -112,16 +112,173 @@
 
 ### Register a new device
 
+**POST:** `/user/device`
+
+**Body:** None
+
+**Response:**
+```json
+{
+    "_id": "device_id",
+    "userEmail": "something@something.com",
+    "pinConfig": []
+}
+```
+
+**Status Codes:**
+* `201` if successful
+* `401` if not authenticated
+* `403` if `SYSTEM-API-KEY` is missing or subscription is expired
+
+
 ### List devices
+
+**GET:** `/user/device`
+
+**Response:**
+```json
+[
+    {
+        "_id": "device_id",
+        "userEmail": "something@something.com",
+        "pinConfig": []
+    }
+]
+```
+
+**Status Codes:**
+* `200` if successful
+* `401` if not authenticated
+* `403` if `SYSTEM-API-KEY` is missing
+
 
 ### View detail of a single device
 
+**GET:** `/user/device/:deviceId`
+
+**Response:**
+```json
+{
+    "_id": "device_id",
+    "userEmail": "something@something.com",
+    "pinConfig": []
+}
+```
+
+**Status Codes:**
+* `200` if successful
+* `401` if not authenticated
+* `403` if `SYSTEM-API-KEY` is missing
+* `404` if deviceId does not exist
+
+
 ### Remove a device
+
+**DELETE:** `/user/device/:deviceId`
+
+**Response:** None
+
+**Status Codes:**
+* `204` if successful
+* `401` if not authenticated
+* `403` if `SYSTEM-API-KEY` is missing
+* `404` if deviceId does not exist
+
 
 ### Add a pin configuration to a device
 
+**POST:** `/user/device/:deviceId/pin`
+
+**Body:**
+```json
+{
+    "pin": 18,
+    "name": "Red LED",
+    "mode": "OUT"
+}
+```
+
+**Response:**
+```json
+{
+    "pin": 18,
+    "name": "Red LED",
+    "mode": "OUT",
+    "initial": "LOW"
+}
+```
+
+**Required Body Properties:**
+* `pin` - Pin number (integer)
+* `name` - Custom text label for the pin
+* `mode` - `IN` or `OUT`
+
+**Optional Body Properties:**
+* `resistor` - `PUD_UP` or `PUD_DOWN`
+* `initial` - `HIGH` or `LOW`
+* `pinEvent` - `RISING`, `FALLING`, `BOTH`
+* `bounce` - Number of milliseconds (integer)
+
+
+**Status Codes:**
+* `201` if successful
+* `400` if invalid data
+* `401` if not authenticated
+* `403` if `SYSTEM-API-KEY` is missing or subscription is expired
+
+
 ### List pin configurations for a device
+
+**GET:** `/user/device/:deviceId/pin`
+
+**Response:**
+```json
+[
+    {
+        "pin": 18,
+        "name": "Red LED",
+        "mode": "OUT",
+        "initial": "LOW"
+    }
+]
+```
+
+**Status Codes:**
+* `200` if successful
+* `401` if not authenticated
+* `403` if `SYSTEM-API-KEY` is missing
+* `404` if deviceId does not exist
+
 
 ### View detail for a single pin configuration
 
+**GET:** `/user/device/:deviceId/pin/:pinId`
+
+**Response:**
+```json
+{
+    "pin": 18,
+    "name": "Red LED",
+    "mode": "OUT",
+    "initial": "LOW"
+}
+```
+
+**Status Codes:**
+* `200` if successful
+* `401` if not authenticated
+* `403` if `SYSTEM-API-KEY` is missing
+* `404` if deviceId or pinId does not exist
+
+
 ### Remove a pin configuration from a device
+
+**DELETE:** `/user/device/:deviceId/pin/:pinId`
+
+**Response:** None
+
+**Status Codes:**
+* `204` if successful
+* `401` if not authenticated
+* `403` if `SYSTEM-API-KEY` is missing
+* `404` if deviceId or pinId does not exist
