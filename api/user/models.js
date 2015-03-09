@@ -38,7 +38,7 @@ UserSchema.statics.register = function ( newUserData, done ) {
         level: 1
     };
 
-    // TODO: assign subscription.rabbitURL here
+    // TODO: assign subscription.serverName here
 
     this.create( newUserData, function ( err, newUser ) {
 
