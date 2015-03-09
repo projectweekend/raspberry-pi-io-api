@@ -6,6 +6,8 @@ var uuid = require( "node-uuid" );
 
 var errors = require( "api-utils" ).errors;
 
+var Server = require( "../rabbit/models" ).Server;
+
 
 var Schema = mongoose.Schema;
 var ObjectId = Schema.ObjectId;
@@ -32,15 +34,40 @@ var UserSchema = Schema ( {
 
 UserSchema.statics.register = function ( newUserData, done ) {
 
-    newUserData.password = bcrypt.hashSync( newUserData.password, 8 );
-    newUserData.subscription = {
-        end: moment().add( 14, "days" ).toDate(),
-        level: 1
-    };
+    var _this = this;
 
-    // TODO: assign subscription.serverName here
+    function getServer ( cb ) {
 
-    this.create( newUserData, function ( err, newUser ) {
+        Server.getAvailable( cb );
+
+    }
+
+    function addUser ( server, cb ) {
+
+        newUserData.password = bcrypt.hashSync( newUserData.password, 8 );
+        newUserData.subscription = {
+            end: moment().add( 14, "days" ).toDate(),
+            level: 1,
+            serverName: server.name
+        };
+
+        _this.create( newUserData, function ( err, newUser ) {
+
+            if ( err ) {
+                return cb( err );
+            }
+
+            server.addUser();
+
+            return cb( null, newUser );
+
+        } );
+
+    }
+
+    var tasks = [ getServer, addUser ];
+
+    async.waterfall( tasks, function ( err, newUser ) {
 
         if ( err && err.code === 11000 ) {
             return done( errors.conflict( "Email address already in use" ) );

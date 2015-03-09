@@ -2,7 +2,8 @@ var expect = require( "chai" ).expect;
 var supertest = require( "supertest" );
 
 var app = require( "../app" );
-var models = require( "../api/user/models" );
+var User = require( "../api/user/models" ).User;
+var Server = require( "../api/rabbit/models" ).Server;
 
 var api = supertest( app );
 
@@ -41,7 +42,35 @@ describe( "Register a new user...", function () {
 
     before( function ( done ) {
 
-        models.User.remove( {}, function ( err ) {
+        User.remove( {}, function ( err ) {
+
+            if ( err ) {
+                return done( err );
+            }
+
+            return done();
+
+        } );
+
+    } );
+
+    before( function ( done ) {
+
+        Server.remove( {}, function ( err ) {
+
+            if ( err ) {
+                return done( err );
+            }
+
+            return done();
+
+        } );
+
+    } );
+
+    before( function ( done ) {
+
+        Server.create( { name: "test_server" }, function ( err ) {
 
             if ( err ) {
                 return done( err );
@@ -366,6 +395,7 @@ describe( "Get user detail...", function () {
 
                 expect( res.body ).to.have.a.property( "email", testData.valid.email );
                 expect( res.body ).to.have.a.deep.property( "subscription.level", 1 );
+                expect( res.body ).to.have.a.deep.property( "subscription.serverName", "test_server" );
 
                 return done();
 

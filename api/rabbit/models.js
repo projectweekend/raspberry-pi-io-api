@@ -51,12 +51,4 @@ ServerSchema.methods.addUser = function ( done ) {
 };
 
 
-ServerSchema.methods.removeUser = function ( done ) {
-
-    this.userCount -= 1;
-    this.save( done );
-
-};
-
-
 exports.Server = mongoose.model( "Server", ServerSchema );
