@@ -24,6 +24,7 @@ var UserSchema = Schema ( {
     subscription: {
         end: Date,
         level: Number,
+        serverName: String,
         rabbitURL: String
     }
 } );
