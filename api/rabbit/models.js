@@ -10,6 +10,10 @@ var ObjectId = Schema.ObjectId;
 var ServerSchema = Schema ( {
     id: ObjectId,
     name: String,
+    host: {
+        type: String,
+        unique: true
+    },
     userCount: {
         type: Number,
         default: 0
