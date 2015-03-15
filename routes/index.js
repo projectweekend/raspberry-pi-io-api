@@ -7,7 +7,7 @@ var raspberrypi = require( "../api/raspberrypi/handlers" );
 
 
 module.exports = function ( messageBroker ) {
-    router.post( "/register", user.register );
+    router.post( "/register", user.register( messageBroker ) );
     router.post( "/authenticate", user.authenticate );
 
     router.get( "/user", user.getDetail );
