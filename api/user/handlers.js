@@ -3,33 +3,71 @@ var authUtils = require( "api-utils" ).authentication;
 var User = require( "./models" ).User;
 
 
-exports.register = function ( req, res, next ) {
+var accountCreateQueue = process.env.BASE_CREATE_QUEUE;
+if ( !accountCreateQueue ) {
+    console.log( "BASE_CREATE_QUEUE environment variable is required." );
+    process.exit( 1 );
+}
 
-    req.checkBody( "email", "Not a valid email address" ).isEmail();
-    req.checkBody( "password", "Password must be at least 6 characters" ).isLength( 6 );
 
-    var validationErrors = req.validationErrors();
+exports.register = function ( messageBroker ) {
 
-    if ( validationErrors ) {
-        return res.status( 400 ).json( validationErrors );
-    }
+    function registrationHandler ( req, res, next ) {
 
-    var user = {
-        email: req.body.email,
-        password: req.body.password
-    };
+        req.checkBody( "email", "Not a valid email address" ).isEmail();
+        req.checkBody( "password", "Password must be at least 6 characters" ).isLength( 6 );
 
-    User.register( user, function ( err, newUser ) {
+        var validationErrors = req.validationErrors();
 
-        if ( err ) {
-            return next( err );
+        if ( validationErrors ) {
+            return res.status( 400 ).json( validationErrors );
         }
 
-        return res.status( 201 ).json( {
-            token: authUtils.generateJWT( newUser, [ "_id", "email" ] )
-        } );
+        var user = {
+            email: req.body.email,
+            password: req.body.password
+        };
 
-    } );
+        function registerUser ( done ) {
+
+            User.register( user, function ( err, newUser ) {
+
+                if ( err ) {
+                    return done( err );
+                }
+
+                return done( null, newUser );
+
+            } );
+
+        }
+
+        function sendRabbitMessage ( newUser, done ) {
+
+            var queue = accountCreateQueue + "." + newUser.subscription.serverName;
+            var message = {
+                user_key: newUser._id
+            };
+            messageBroker.publish( queue, message );
+            return done( null, newUser );
+        }
+
+        function sendResponse ( err, newUser ) {
+
+            if ( err ) {
+                return next( err );
+            }
+
+            return res.status( 201 ).json( {
+                token: authUtils.generateJWT( newUser, [ "_id", "email" ] )
+            } );
+
+        }
+
+        async.waterfall( [ registerUser, sendRabbitMessage ], sendResponse );
+    }
+
+    return registrationHandler;
 
 };
 
