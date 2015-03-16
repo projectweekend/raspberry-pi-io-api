@@ -35,6 +35,13 @@ exports.register = function ( req, res, next ) {
 
     function sendRabbitMessage ( newUser, done ) {
 
+        var routingKey = newUser.subscription.serverName;
+        var message = {
+            user_key: newUser._id
+        };
+
+        global.rabbitClient.send( routingKey, message );
+
         return done( null, newUser );
     }
 
