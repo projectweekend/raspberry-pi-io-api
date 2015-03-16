@@ -3,13 +3,6 @@ var authUtils = require( "api-utils" ).authentication;
 var User = require( "./models" ).User;
 
 
-var accountCreateQueue = process.env.BASE_CREATE_QUEUE;
-if ( !accountCreateQueue ) {
-    console.log( "BASE_CREATE_QUEUE environment variable is required." );
-    process.exit( 1 );
-}
-
-
 exports.register = function ( req, res, next ) {
 
     req.checkBody( "email", "Not a valid email address" ).isEmail();
@@ -42,11 +35,6 @@ exports.register = function ( req, res, next ) {
 
     function sendRabbitMessage ( newUser, done ) {
 
-        // var queue = accountCreateQueue + "." + newUser.subscription.serverName;
-        // var message = {
-        //     user_key: newUser._id
-        // };
-        // messageBroker.publish( queue, message );
         return done( null, newUser );
     }
 
