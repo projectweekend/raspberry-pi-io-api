@@ -5,31 +5,9 @@ var logger = require( "morgan" );
 var bodyParser = require( "body-parser" );
 var databaseUtils = require( "api-utils" ).database;
 var authUtils = require( "api-utils" ).authentication;
-var jackrabbit = require( "jackrabbit" );
-
-// Rabbit Connection Stuff: START
-if ( !process.env.RABBIT_1_PORT_15672_TCP && !process.env.RABBIT_URL ) {
-    console.log( "RABBIT_URL environment variable is required." );
-    process.exit( 1 );
-} else {
-    var rabbitURL;
-    if ( process.env.RABBIT_URL ) {
-        rabbitURL = process.env.RABBIT_URL;
-    } else {
-        rabbitURL = "amqp://" + process.env.RABBIT_PORT_5672_TCP_ADDR;
-    }
-}
-
-var broker = jackrabbit( rabbitURL );
-broker.on( "disconnected", function () {
-    console.log( "Lost connection to RabbitMQ." );
-    process.exit( 1 );
-} );
-// Rabbit Connection Stuff: END
 
 
-// Hand message broker to the router so specific routes can use it
-var routes = require( "./routes/index" )( broker );
+var routes = require( "./routes/index" );
 var db = databaseUtils.mongooseConnection();
 
 var app = express();
