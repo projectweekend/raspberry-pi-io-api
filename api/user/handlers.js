@@ -10,64 +10,59 @@ if ( !accountCreateQueue ) {
 }
 
 
-exports.register = function ( messageBroker ) {
+exports.register = function ( req, res, next ) {
 
-    function registrationHandler ( req, res, next ) {
+    req.checkBody( "email", "Not a valid email address" ).isEmail();
+    req.checkBody( "password", "Password must be at least 6 characters" ).isLength( 6 );
 
-        req.checkBody( "email", "Not a valid email address" ).isEmail();
-        req.checkBody( "password", "Password must be at least 6 characters" ).isLength( 6 );
+    var validationErrors = req.validationErrors();
 
-        var validationErrors = req.validationErrors();
-
-        if ( validationErrors ) {
-            return res.status( 400 ).json( validationErrors );
-        }
-
-        var user = {
-            email: req.body.email,
-            password: req.body.password
-        };
-
-        function registerUser ( done ) {
-
-            User.register( user, function ( err, newUser ) {
-
-                if ( err ) {
-                    return done( err );
-                }
-
-                return done( null, newUser );
-
-            } );
-
-        }
-
-        function sendRabbitMessage ( newUser, done ) {
-
-            var queue = accountCreateQueue + "." + newUser.subscription.serverName;
-            var message = {
-                user_key: newUser._id
-            };
-            messageBroker.publish( queue, message );
-            return done( null, newUser );
-        }
-
-        function sendResponse ( err, newUser ) {
-
-            if ( err ) {
-                return next( err );
-            }
-
-            return res.status( 201 ).json( {
-                token: authUtils.generateJWT( newUser, [ "_id", "email" ] )
-            } );
-
-        }
-
-        async.waterfall( [ registerUser, sendRabbitMessage ], sendResponse );
+    if ( validationErrors ) {
+        return res.status( 400 ).json( validationErrors );
     }
 
-    return registrationHandler;
+    var user = {
+        email: req.body.email,
+        password: req.body.password
+    };
+
+    function registerUser ( done ) {
+
+        User.register( user, function ( err, newUser ) {
+
+            if ( err ) {
+                return done( err );
+            }
+
+            return done( null, newUser );
+
+        } );
+
+    }
+
+    function sendRabbitMessage ( newUser, done ) {
+
+        // var queue = accountCreateQueue + "." + newUser.subscription.serverName;
+        // var message = {
+        //     user_key: newUser._id
+        // };
+        // messageBroker.publish( queue, message );
+        return done( null, newUser );
+    }
+
+    function sendResponse ( err, newUser ) {
+
+        if ( err ) {
+            return next( err );
+        }
+
+        return res.status( 201 ).json( {
+            token: authUtils.generateJWT( newUser, [ "_id", "email" ] )
+        } );
+
+    }
+
+    async.waterfall( [ registerUser, sendRabbitMessage ], sendResponse );
 
 };
 
