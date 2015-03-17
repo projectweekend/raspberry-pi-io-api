@@ -17,3 +17,12 @@ exports.mockRabbitClient = function ( done ) {
     return done();
 
 };
+
+
+exports.restoreRabbitClient = function ( done ) {
+
+    amqp.RabbitClient.restore();
+
+    return done();
+
+};
