@@ -4,6 +4,8 @@ var supertest = require( "supertest" );
 var app = require( "../app" );
 var User = require( "../api/user/models" ).User;
 var Server = require( "../api/rabbit/models" ).Server;
+var mockRabbitClient = require( "../api/utils/testing" ).mockRabbitClient;
+var restoreRabbitClient = require( "../api/utils/testing" ).restoreRabbitClient;
 
 var api = supertest( app );
 
@@ -39,6 +41,9 @@ var testData = {
 
 
 describe( "Register a new user...", function () {
+
+    before( mockRabbitClient );
+    after( restoreRabbitClient );
 
     before( function ( done ) {
 
