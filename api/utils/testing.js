@@ -1,18 +1,10 @@
 var sinon = require( "sinon" );
-var amqp = require( "./amqp" );
+var RabbitClient = require( "./amqp" ).RabbitClient;
 
 
 exports.mockRabbitClient = function ( done ) {
 
-    var fakeClient = function ( rabbitUrl ) {
-
-    };
-
-    fakeClient.prototype.send = function( routingKey, message ) {
-
-    };
-
-    sinon.stub( amqp, "RabbitClient" ).yields( null, fakeClient );
+    sinon.stub( RabbitClient.prototype, "send" ).returns( 0 );
 
     return done();
 
@@ -21,7 +13,7 @@ exports.mockRabbitClient = function ( done ) {
 
 exports.restoreRabbitClient = function ( done ) {
 
-    amqp.RabbitClient.restore();
+    RabbitClient.prototype.send.restore();
 
     return done();
 
