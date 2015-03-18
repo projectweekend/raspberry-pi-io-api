@@ -29,8 +29,6 @@ if ( !process.env.RABBIT_1_PORT_15672_TCP && !process.env.RABBIT_URL ) {
     }
 }
 
-
-console.log( rabbitURL );
 global.rabbitClient = new RabbitClient( rabbitURL );
 // RabbitMQ: END
 
