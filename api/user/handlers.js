@@ -40,7 +40,7 @@ exports.register = function ( req, res, next ) {
             user_key: newUser._id
         };
 
-        global.rabbitClient.send( routingKey, message );
+        req.app.locals.rabbitClient.send( routingKey, message );
 
         return done( null, newUser );
     }
