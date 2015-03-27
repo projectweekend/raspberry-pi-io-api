@@ -7,14 +7,13 @@ var User = require( "./models" ).User;
 
 exports.Register = Register;
 exports.Authenticate = Authenticate;
+exports.GetDetail = GetDetail;
 
 
 function Register ( req, res, next ) {
     CreateHandler.call( this, req, res, next );
 }
 util.inherits( Register, CreateHandler );
-
-
 Register.prototype.validate = function() {
 
     this.req.checkBody( "email", "Not a valid email address" ).isEmail();
@@ -34,8 +33,6 @@ Register.prototype.validate = function() {
     return this.emit( "create", user );
 
 };
-
-
 Register.prototype.create = function( user ) {
 
     var _this = this;
@@ -53,8 +50,6 @@ Register.prototype.create = function( user ) {
     User.register( user, onRegister );
 
 };
-
-
 Register.prototype.postCreate = function( newUser ) {
 
     var routingKey = newUser.subscription.serverName;
@@ -77,8 +72,6 @@ function Authenticate ( req, res, next ) {
     ReadHandler.call( this, req, res, next );
 }
 util.inherits( Authenticate, ReadHandler );
-
-
 Authenticate.prototype.preRead = function() {
 
     this.req.checkBody( "email", "Not a valid email address" ).isEmail();
@@ -98,8 +91,6 @@ Authenticate.prototype.preRead = function() {
     return this.emit( "read", user );
 
 };
-
-
 Authenticate.prototype.read = function( user ) {
 
     var _this = this;
@@ -119,25 +110,30 @@ Authenticate.prototype.read = function( user ) {
     } );
 
 };
-
-
 Authenticate.prototype.handle = function() {
     this.preRead();
 };
 
 
-exports.getDetail = function ( req, res, next ) {
+function GetDetail ( req, res, next ) {
+    ReadHandler.call( this, req, res, next );
+}
+util.inherits( GetDetail, ReadHandler );
+GetDetail.prototype.read = function() {
 
-    User.detailById( req.user._id, function ( err, detail ) {
+    var _this = this;
+
+    function onDetail ( err, detail ) {
 
         if ( err ) {
-            return next( err );
+            return _this.emit( "error", err );
         }
 
-        return res.status( 200 ).json( detail );
+        return _this.emit( "respond", detail, 200 );
 
-    } );
+    }
 
+    User.detailById( this.req.user._id, onDetail );
 };
 
 

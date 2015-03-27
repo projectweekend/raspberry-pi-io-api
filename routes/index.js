@@ -15,7 +15,10 @@ router.post( "/authenticate", function ( req, res, next ) {
 } );
 
 
-router.get( "/user", user.getDetail );
+router.get( "/user", function ( req, res, next ) {
+    var getDetail = new user.GetDetail( req, res, next );
+    getDetail.handle();
+} );
 router.delete( "/user", user.unRegister );
 
 router.post( "/user/key", user.generateKey );
