@@ -1,5 +1,4 @@
 var util = require( "util" );
-var async = require( "async" );
 var authUtils = require( "api-utils" ).authentication;
 var CreateHandler = require( "express-classy" ).CreateHandler;
 var ReadHandler = require( "express-classy" ).ReadHandler;
