@@ -1,95 +1,129 @@
+var util = require( "util" );
 var async = require( "async" );
 var authUtils = require( "api-utils" ).authentication;
+var CreateHandler = require( "express-classy" ).CreateHandler;
+var ReadHandler = require( "express-classy" ).ReadHandler;
 var User = require( "./models" ).User;
 
 
-exports.register = function ( req, res, next ) {
+exports.Register = Register;
+exports.Authenticate = Authenticate;
 
-    req.checkBody( "email", "Not a valid email address" ).isEmail();
-    req.checkBody( "password", "Password must be at least 6 characters" ).isLength( 6 );
 
-    var validationErrors = req.validationErrors();
+function Register ( req, res, next ) {
+    CreateHandler.call( this, req, res, next );
+}
+util.inherits( Register, CreateHandler );
+
+
+Register.prototype.validate = function() {
+
+    this.req.checkBody( "email", "Not a valid email address" ).isEmail();
+    this.req.checkBody( "password", "Password must be at least 6 characters" ).isLength( 6 );
+
+    var validationErrors = this.req.validationErrors();
 
     if ( validationErrors ) {
-        return res.status( 400 ).json( validationErrors );
+        return this.emit( "error.validation", validationErrors );
     }
 
     var user = {
-        email: req.body.email,
-        password: req.body.password
+        email: this.req.body.email,
+        password: this.req.body.password
     };
 
-    function registerUser ( done ) {
-
-        User.register( user, function ( err, newUser ) {
-
-            if ( err ) {
-                return done( err );
-            }
-
-            return done( null, newUser );
-
-        } );
-
-    }
-
-    function sendRabbitMessage ( newUser, done ) {
-
-        var routingKey = newUser.subscription.serverName;
-        var message = {
-            user_key: newUser._id
-        };
-
-        req.app.locals.rabbitClient.send( routingKey, message );
-
-        return done( null, newUser );
-    }
-
-    function sendResponse ( err, newUser ) {
-
-        if ( err ) {
-            return next( err );
-        }
-
-        return res.status( 201 ).json( {
-            token: authUtils.generateJWT( newUser, [ "_id", "email" ] )
-        } );
-
-    }
-
-    async.waterfall( [ registerUser, sendRabbitMessage ], sendResponse );
+    return this.emit( "create", user );
 
 };
 
 
-exports.authenticate = function ( req, res, next ) {
+Register.prototype.create = function( user ) {
 
-    req.checkBody( "email", "Not a valid email address" ).isEmail();
-    req.checkBody( "password", "Password is required" ).isLength( 1 );
+    var _this = this;
 
-    var validationErrors = req.validationErrors();
+    function onRegister ( err, newUser ) {
+
+        if ( err ) {
+            return _this.next( err );
+        }
+
+        return _this.emit( "post.create", newUser );
+
+    }
+
+    User.register( user, onRegister );
+
+};
+
+
+Register.prototype.postCreate = function( newUser ) {
+
+    var routingKey = newUser.subscription.serverName;
+    var message = {
+        user_key: newUser._id
+    };
+
+    this.req.app.locals.rabbitClient.send( routingKey, message );
+
+    var response = {
+        token: authUtils.generateJWT( newUser, [ "_id", "email" ] )
+    };
+
+    this.emit( "respond", response, 201 );
+
+};
+
+
+function Authenticate ( req, res, next ) {
+    ReadHandler.call( this, req, res, next );
+}
+util.inherits( Authenticate, ReadHandler );
+
+
+Authenticate.prototype.preRead = function() {
+
+    this.req.checkBody( "email", "Not a valid email address" ).isEmail();
+    this.req.checkBody( "password", "Password is required" ).isLength( 1 );
+
+    var validationErrors = this.req.validationErrors();
 
     if ( validationErrors ) {
-        return res.status( 400 ).json( validationErrors );
+        return this.emit( "error.validation", validationErrors );
     }
 
     var user = {
-        email: req.body.email,
-        password: req.body.password
+        email: this.req.body.email,
+        password: this.req.body.password
     };
+
+    return this.emit( "read", user );
+
+};
+
+
+Authenticate.prototype.read = function( user ) {
+
+    var _this = this;
 
     User.authenticate( user, function ( err, existingUser ) {
 
         if ( err ) {
-            return next( err );
+            return _this.emit( "error", err );
         }
 
-        return res.status( 200 ).json( {
+        var response = {
             token: authUtils.generateJWT( existingUser, [ "_id", "email" ] )
-        } );
+        };
+
+        _this.emit( "respond", response, 200 );
 
     } );
 
+};
+
+
+Authenticate.prototype.handle = function() {
+    this.preRead();
 };
 
 

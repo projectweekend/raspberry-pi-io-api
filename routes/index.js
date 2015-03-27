@@ -5,8 +5,15 @@ var device = require( "../api/device/handlers" );
 var raspberrypi = require( "../api/raspberrypi/handlers" );
 
 
-router.post( "/register", user.register );
-router.post( "/authenticate", user.authenticate );
+router.post( "/register", function ( req, res, next ) {
+    var register = new user.Register( req, res, next );
+    register.handle();
+} );
+router.post( "/authenticate", function ( req, res, next ) {
+    var authenticate = new user.Authenticate( req, res, next );
+    authenticate.handle();
+} );
+
 
 router.get( "/user", user.getDetail );
 router.delete( "/user", user.unRegister );
