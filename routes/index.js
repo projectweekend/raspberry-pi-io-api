@@ -1,6 +1,6 @@
 var express = require( "express" );
 var router = express.Router();
-var user = require( "../api/user/handlers" );
+var user = require( "../api/user" );
 var device = require( "../api/device/handlers" );
 var raspberrypi = require( "../api/raspberrypi/handlers" );
 
@@ -9,19 +9,27 @@ router.post( "/register", function ( req, res, next ) {
     var register = new user.Register( req, res, next );
     register.handle();
 } );
+
 router.post( "/authenticate", function ( req, res, next ) {
     var authenticate = new user.Authenticate( req, res, next );
     authenticate.handle();
 } );
 
-
 router.get( "/user", function ( req, res, next ) {
     var getDetail = new user.GetDetail( req, res, next );
     getDetail.handle();
 } );
-router.delete( "/user", user.unRegister );
 
-router.post( "/user/key", user.generateKey );
+router.delete( "/user", function ( req, res, next ) {
+    var unRegister = new user.UnRegister( req, res, next );
+    unRegister.handle();
+} );
+
+router.post( "/user/key", function ( req, res, next ) {
+    var generateKey = new user.GenerateKey( req, res, next );
+    generateKey.handle();
+} );
+
 
 router.post( "/user/device", device.register );
 router.get( "/user/device", device.list );
