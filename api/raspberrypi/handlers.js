@@ -19,7 +19,7 @@ exports.pinConfig = function ( req, res, next ) {
 
     function verifyUser ( done ) {
 
-        User.verifySubscriptionByUserEmail( userEmail, done );
+        User.findOne( { email: userEmail }, done );
 
     }
 

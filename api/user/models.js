@@ -1,12 +1,10 @@
 var async = require( "async" );
 var bcrypt = require( "bcrypt" );
 var mongoose = require( "mongoose" );
-var moment = require( "moment" );
 var uuid = require( "node-uuid" );
-
 var errors = require( "api-utils" ).errors;
 
-var Server = require( "../rabbit/models" ).Server;
+var rabbitURL = process.env.RABBIT_URL;
 
 
 var Schema = mongoose.Schema;
@@ -22,52 +20,15 @@ var UserSchema = Schema ( {
         trim: true
     },
     password: String,
-    key: String,
-    subscription: {
-        end: Date,
-        level: Number,
-        serverName: String,
-        rabbitURL: String
-    }
+    key: String
 } );
 
 
 UserSchema.statics.register = function ( newUserData, done ) {
 
-    var _this = this;
+    newUserData.password = bcrypt.hashSync( newUserData.password, 8 );
 
-    function getServer ( cb ) {
-
-        Server.getAvailable( cb );
-
-    }
-
-    function addUser ( server, cb ) {
-
-        newUserData.password = bcrypt.hashSync( newUserData.password, 8 );
-        newUserData.subscription = {
-            end: moment().add( 14, "days" ).toDate(),
-            level: 1,
-            serverName: server.name
-        };
-
-        _this.create( newUserData, function ( err, newUser ) {
-
-            if ( err ) {
-                return cb( err );
-            }
-
-            server.addUser();
-
-            return cb( null, newUser );
-
-        } );
-
-    }
-
-    var tasks = [ getServer, addUser ];
-
-    async.waterfall( tasks, function ( err, newUser ) {
+    this.create( newUserData, function ( err, newUser ) {
 
         if ( err && err.code === 11000 ) {
             return done( errors.conflict( "Email address already in use" ) );
@@ -142,7 +103,7 @@ UserSchema.statics.authenticate = function ( user, done ) {
 
 UserSchema.statics.detailById = function ( id, done ) {
 
-    var fields = "_id email subscription";
+    var fields = "_id email";
 
     this.findById( id, fields, function ( err, existingUser ) {
 
@@ -196,33 +157,6 @@ UserSchema.statics.generateKeyById = function ( id, done ) {
         }
 
         return user.generateKey( done );
-
-    } );
-
-};
-
-
-UserSchema.statics.verifySubscriptionByUserEmail = function ( userEmail, done ) {
-
-    var query = {
-        email: userEmail,
-        "subscription.end": {
-            $gt: Date.now()
-        }
-    };
-
-    this.findOne( query, function ( err, user ) {
-
-        /* istanbul ignore if */
-        if ( err ) {
-            return done( err );
-        }
-
-        if ( !user ) {
-            return done( errors.notAuthorized( "Subscription not valid" ) );
-        }
-
-        return done( null, user );
 
     } );
 
