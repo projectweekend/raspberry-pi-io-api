@@ -65,11 +65,7 @@
 **Response:**
 ```json
 {
-    "email": "something@something.com",
-    "subscription": {
-        "level": 1,
-        "end": "2015-03-13T03:07:26.204Z"
-    }
+    "email": "something@something.com"
 }
 ```
 
@@ -128,7 +124,7 @@
 **Status Codes:**
 * `201` if successful
 * `401` if not authenticated
-* `403` if `SYSTEM-API-KEY` is missing or subscription is expired
+* `403` if `SYSTEM-API-KEY` is missing
 
 
 ### List devices
@@ -224,7 +220,7 @@
 * `201` if successful
 * `400` if invalid data
 * `401` if not authenticated
-* `403` if `SYSTEM-API-KEY` is missing or subscription is expired
+* `403` if `SYSTEM-API-KEY` is missing
 
 
 ### List pin configurations for a device
