@@ -3,7 +3,7 @@
 To deploy your own Raspberry Pi IO server first create a Heroku account and install the Heroku Command Line utility. This link has info about how to do that: [https://devcenter.heroku.com/articles/getting-started-with-nodejs#set-up](https://devcenter.heroku.com/articles/getting-started-with-nodejs#set-up). Once installed, follow these steps:
 
 * Clone this repo: `git clone git@github.com:exitcodezero/raspberry-pi-io-api.git`
-* Create a new Heroku app using the command line: `heroku create whatever-you-name-it`
+* Create a new Heroku app using the command line inside the cloned directory: `heroku create whatever-you-name-it`
 * Log into the [Heroku Dashboard](https://dashboard.heroku.com/apps/), click on the named app you just created and go to the **Settings** section. Find the **Congif Variables** area, click Edit and add the following variables.
 * `JWT_EXPIRES`: The number of minutes for an authentication token to remain valid.
 * `JWT_SECRET`: Any random string of characters. This is used to encrypt the authentication tokens.
