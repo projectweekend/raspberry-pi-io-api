@@ -1,10 +1,11 @@
 var async = require( "async" );
 var errors = require( "api-utils" ).errors;
-
 var User = require( "../user/models" ).User;
 var Device = require( "../device/models" ).Device;
-
 var listResponse = require( "../utils/responses" ).listResponse;
+
+
+var rabbitURL = process.env.RABBIT_URL;
 
 
 exports.pinConfig = function ( req, res, next ) {
@@ -19,7 +20,7 @@ exports.pinConfig = function ( req, res, next ) {
 
     function verifyUser ( done ) {
 
-        User.findOne( { email: userEmail }, done );
+        User.verifyUserByEmail( userEmail, done );
 
     }
 
@@ -54,7 +55,7 @@ exports.pinConfig = function ( req, res, next ) {
     function prepareResponse ( user, device, done ) {
 
         var response = {
-            rabbitURL: user.subscription.rabbitURL,
+            rabbitURL: rabbitURL,
             pinConfig: device.pinConfig
         };
 

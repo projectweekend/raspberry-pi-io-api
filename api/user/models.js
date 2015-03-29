@@ -163,6 +163,26 @@ UserSchema.statics.generateKeyById = function ( id, done ) {
 };
 
 
+UserSchema.statics.verifyUserByEmail = function ( email, done ) {
+
+    this.findOne( { email: email }, function ( err, user ) {
+
+        /* istanbul ignore if */
+        if ( err ) {
+            return done( err );
+        }
+
+        if ( !user ) {
+            return done( errors.notAuthorized( "Not authorized" ) );
+        }
+
+        return done( null, user );
+
+    } );
+
+};
+
+
 UserSchema.methods.isKeyValid = function ( key, done ) {
 
     bcrypt.compare( key, this.key, function ( err, result ) {

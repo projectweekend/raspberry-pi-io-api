@@ -399,8 +399,6 @@ describe( "Get user detail...", function () {
                 }
 
                 expect( res.body ).to.have.a.property( "email", testData.valid.email );
-                expect( res.body ).to.have.a.deep.property( "subscription.level", 1 );
-                expect( res.body ).to.have.a.deep.property( "subscription.serverName", "test_server" );
 
                 return done();
 

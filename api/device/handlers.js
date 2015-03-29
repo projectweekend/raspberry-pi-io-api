@@ -33,39 +33,13 @@ exports.register = function ( req, res, next ) {
 
     }
 
-    function verifySubscription ( user, cb ) {
-
-        var now = moment();
-        var subscriptionEnd = moment( user.subscription.end );
-
-        if ( subscriptionEnd.isBefore( now ) ) {
-            return cb( errors.notAuthorized( "Subscription expired" ) );
-        }
-
-        Device.canRegisterForUser( user, function ( err, canRegister ) {
-
-            /* istanbul ignore if */
-            if ( err ) {
-                return cb( err );
-            }
-
-            if ( !canRegister ) {
-                return cb( errors.notAuthorized( "Max devices registered" ) );
-            }
-
-            return cb( null, user );
-
-        } );
-
-    }
-
     function registerDevice ( user, cb ) {
 
         Device.registerForUser( user, cb );
 
     }
 
-    var tasks = [ verifyUser, verifySubscription, registerDevice ];
+    var tasks = [ verifyUser, registerDevice ];
 
     async.waterfall( tasks, createdResponse( res, next ) );
 
