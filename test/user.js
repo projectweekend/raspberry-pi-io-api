@@ -3,9 +3,6 @@ var supertest = require( "supertest" );
 
 var app = require( "../app" );
 var User = require( "../api/user/models" ).User;
-var Server = require( "../api/rabbit/models" ).Server;
-var mockRabbitClient = require( "../api/utils/testing" ).mockRabbitClient;
-var restoreRabbitClient = require( "../api/utils/testing" ).restoreRabbitClient;
 
 var api = supertest( app );
 
@@ -42,40 +39,9 @@ var testData = {
 
 describe( "Register a new user...", function () {
 
-    before( mockRabbitClient );
-    after( restoreRabbitClient );
-
     before( function ( done ) {
 
         User.remove( {}, function ( err ) {
-
-            if ( err ) {
-                return done( err );
-            }
-
-            return done();
-
-        } );
-
-    } );
-
-    before( function ( done ) {
-
-        Server.remove( {}, function ( err ) {
-
-            if ( err ) {
-                return done( err );
-            }
-
-            return done();
-
-        } );
-
-    } );
-
-    before( function ( done ) {
-
-        Server.create( { name: "test_server" }, function ( err ) {
 
             if ( err ) {
                 return done( err );

@@ -4,8 +4,6 @@ var mongoose = require( "mongoose" );
 var uuid = require( "node-uuid" );
 var errors = require( "api-utils" ).errors;
 
-var rabbitURL = process.env.RABBIT_URL;
-
 
 var Schema = mongoose.Schema;
 var ObjectId = Schema.ObjectId;

@@ -2,10 +2,6 @@ db:
     image: dockerfile/mongodb
     ports:
         - 27017
-rabbit:
-    image: rabbitmq
-    ports:
-        - 15672
 web:
     build: .
     command: npm start
@@ -19,7 +15,6 @@ web:
         - 3000:3000
     links:
         - db
-        - rabbit
     environment:
         DEBUG: raspberry-pi-io-api:*
         NODE_ENV: development

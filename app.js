@@ -6,31 +6,12 @@ var bodyParser = require( "body-parser" );
 var databaseUtils = require( "api-utils" ).database;
 var authUtils = require( "api-utils" ).authentication;
 var routes = require( "./routes/index" );
-var RabbitClient = require( "./api/utils/amqp" ).RabbitClient;
 
 
 var authNotRequired = [ "/register", "/authenticate", "/pin-config" ];
 
 var db = databaseUtils.mongooseConnection();
 var app = express();
-
-// RabbitMQ: START
-var rabbitURL;
-
-if ( !process.env.RABBIT_1_PORT_15672_TCP && !process.env.RABBIT_URL ) {
-    console.log( "RABBIT_URL environment variable is required." );
-    process.exit( 1 );
-} else {
-    var rabbitURL;
-    if ( process.env.RABBIT_URL ) {
-        rabbitURL = process.env.RABBIT_URL;
-    } else {
-        rabbitURL = "amqp://" + process.env.RABBIT_PORT_5672_TCP_ADDR;
-    }
-}
-
-app.locals.rabbitClient = new RabbitClient( rabbitURL );
-// RabbitMQ: END
 
 app.use( logger( "dev" ) );
 app.use( bodyParser.json() );
