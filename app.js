@@ -8,6 +8,12 @@ var authUtils = require( "api-utils" ).authentication;
 var routes = require( "./routes/index" );
 
 
+if ( !process.env.RABBIT_URL ) {
+    console.log( "RABBIT_URL environment variable not defined" );
+    process.exit( 1 );
+}
+
+
 var authNotRequired = [ "/register", "/authenticate", "/pin-config" ];
 
 var db = databaseUtils.mongooseConnection();
