@@ -64,6 +64,6 @@ Register.prototype.postCreate = function( newUser ) {
         token: authUtils.generateJWT( newUser, [ "_id", "email" ] )
     };
 
-    this.emit( "respond", response, 201 );
+    this.emit( "respond", response );
 
 };

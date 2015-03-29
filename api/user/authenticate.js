@@ -47,7 +47,7 @@ Authenticate.prototype.read = function( user ) {
             token: authUtils.generateJWT( existingUser, [ "_id", "email" ] )
         };
 
-        _this.emit( "respond", response, 200 );
+        _this.emit( "respond", response );
 
     } );
 

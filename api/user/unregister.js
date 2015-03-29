@@ -22,7 +22,7 @@ UnRegister.prototype.del = function() {
             return _this.emit( "error", err );
         }
 
-        return _this.emit( "respond", {}, 204 );
+        return _this.emit( "respond", {} );
 
     } );
 

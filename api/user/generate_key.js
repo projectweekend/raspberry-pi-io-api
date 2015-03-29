@@ -26,7 +26,7 @@ GenerateKey.prototype.create = function() {
             key: key
         };
 
-        return _this.emit( "respond", data, 201 );
+        return _this.emit( "respond", data );
 
     } );
 

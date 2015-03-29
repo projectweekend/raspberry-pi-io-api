@@ -22,7 +22,7 @@ GetDetail.prototype.read = function() {
             return _this.emit( "error", err );
         }
 
-        return _this.emit( "respond", detail, 200 );
+        return _this.emit( "respond", detail );
 
     }
 
