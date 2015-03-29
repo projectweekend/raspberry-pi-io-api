@@ -11,6 +11,7 @@ To deploy your own Raspberry Pi IO server first create a Heroku account and inst
 * `NODE_ENV`: Set this to `production`.
 * `RABBIT_URL`: The connection URL for a RabbitMQ server. You can create a free RabbitMQ server at [CloudAMQP](http://www.cloudamqp.com/) that will support up to 3 concurrent connections. That's enough for one connection from the controller application and two Raspberry Pi devices.
 * `SYSTEM_API_KEY`: Any random string of characters. This will be the value used in the `SYSTEM-API-KEY` header (see below).
+* Deploy: `git push heroku master`
 
 
 ## API General Info
