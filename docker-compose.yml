@@ -21,3 +21,4 @@ web:
         JWT_SECRET: fakeToken
         JWT_EXPIRES: 20160
         SYSTEM_API_KEY: fakeapikey
+        RABBIT_URL: fake_rabbit_url
