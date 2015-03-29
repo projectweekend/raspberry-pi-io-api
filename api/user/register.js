@@ -43,27 +43,14 @@ Register.prototype.create = function( user ) {
             return _this.next( err );
         }
 
-        return _this.emit( "post.create", newUser );
+        var response = {
+            token: authUtils.generateJWT( newUser, [ "_id", "email" ] )
+        };
+
+        return _this.emit( "respond", response );
 
     }
 
     User.register( user, onRegister );
-
-};
-
-Register.prototype.postCreate = function( newUser ) {
-
-    var routingKey = newUser.subscription.serverName;
-    var message = {
-        user_key: newUser._id
-    };
-
-    this.req.app.locals.rabbitClient.send( routingKey, message );
-
-    var response = {
-        token: authUtils.generateJWT( newUser, [ "_id", "email" ] )
-    };
-
-    this.emit( "respond", response );
 
 };
