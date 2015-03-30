@@ -1,0 +1,1 @@
+exports.Register = require( "./register" );

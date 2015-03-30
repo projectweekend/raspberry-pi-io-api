@@ -1,5 +1,4 @@
 var async = require( "async" );
-var moment = require( "moment" );
 var errors = require( "api-utils" ).errors;
 
 var User = require( "../user/models" ).User;
@@ -10,40 +9,6 @@ var listResponse = require( "../utils/responses" ).listResponse;
 var detailResponse = require( "../utils/responses" ).detailResponse;
 var deleteResponse = require( "../utils/responses" ).deleteResponse;
 var nestedCreateResponse = require( "../utils/responses" ).nestedCreateResponse;
-
-
-exports.register = function ( req, res, next ) {
-
-    function verifyUser ( cb ) {
-
-        User.detailById( req.user._id, function ( err, user ) {
-
-            /* istanbul ignore if */
-            if ( err ) {
-                return cb( err );
-            }
-
-            if ( !user ) {
-                return cb( errors.auth( "Requires authentication" ) );
-            }
-
-            return cb( null, user );
-
-        } );
-
-    }
-
-    function registerDevice ( user, cb ) {
-
-        Device.registerForUser( user, cb );
-
-    }
-
-    var tasks = [ verifyUser, registerDevice ];
-
-    async.waterfall( tasks, createdResponse( res, next ) );
-
-};
 
 
 exports.list = function ( req, res, next ) {
