@@ -5,13 +5,6 @@ var deleteResponse = require( "../utils/responses" ).deleteResponse;
 var nestedCreateResponse = require( "../utils/responses" ).nestedCreateResponse;
 
 
-exports.remove = function ( req, res, next ) {
-
-    Device.removeForUserAndId( req.user, req.params.deviceId, deleteResponse( res, next ) );
-
-};
-
-
 exports.addPin = function ( req, res, next ) {
 
     req.checkBody( "pin", "Must be an integer" ).isInt();

@@ -20,6 +20,7 @@ DeviceList.prototype.read = function() {
 
     function onResult ( err, devices ) {
 
+        /* istanbul ignore if */
         if ( err ) {
             return _this.emit( "error", err );
         }

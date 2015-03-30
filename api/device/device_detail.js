@@ -25,6 +25,7 @@ DeviceDetail.prototype.read = function() {
             return _this.emit( "error", errors.resourceNotFound( "Not found" ) );
         }
 
+        /* istanbul ignore if */
         if ( err ) {
             return _this.emit( "error", err );
         }
