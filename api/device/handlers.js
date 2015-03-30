@@ -5,13 +5,6 @@ var deleteResponse = require( "../utils/responses" ).deleteResponse;
 var nestedCreateResponse = require( "../utils/responses" ).nestedCreateResponse;
 
 
-exports.detail = function ( req, res, next ) {
-
-    Device.detailForUserAndId( req.user, req.params.deviceId, detailResponse( res, next ) );
-
-};
-
-
 exports.remove = function ( req, res, next ) {
 
     Device.removeForUserAndId( req.user, req.params.deviceId, deleteResponse( res, next ) );

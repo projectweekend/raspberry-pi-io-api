@@ -3,18 +3,18 @@ var ReadHandler = require( "express-classy" ).ReadHandler;
 var Device = require( "./models" ).Device;
 
 
-module.exports = ListDevices;
+module.exports = DeviceList;
 
 
-function ListDevices ( req, res, next ) {
+function DeviceList ( req, res, next ) {
 
     ReadHandler.call( this, req, res, next );
 
 }
 
-util.inherits( ListDevices, ReadHandler );
+util.inherits( DeviceList, ReadHandler );
 
-ListDevices.prototype.read = function() {
+DeviceList.prototype.read = function() {
 
     var _this = this;
 

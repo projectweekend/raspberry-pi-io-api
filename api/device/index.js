@@ -1,2 +1,3 @@
 exports.Register = require( "./register" );
-exports.ListDevices = require( "./list_devices" );
+exports.DeviceList = require( "./device_list" );
+exports.DeviceDetail = require( "./device_detail" );
