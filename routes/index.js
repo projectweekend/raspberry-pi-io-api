@@ -2,7 +2,7 @@ var express = require( "express" );
 var router = express.Router();
 var user = require( "../api/user" );
 var device = require( "../api/device/handlers" );
-var raspberrypi = require( "../api/raspberrypi/handlers" );
+var raspberrypi = require( "../api/raspberrypi" );
 
 
 router.post( "/register", function ( req, res, next ) {
@@ -30,6 +30,11 @@ router.post( "/user/key", function ( req, res, next ) {
     generateKey.handle();
 } );
 
+router.get( "/pin-config", function ( req, res, next ) {
+    var pinConfig = new raspberrypi.PinConfig( req, res, next );
+    pinConfig.handle();
+} );
+
 
 router.post( "/user/device", device.register );
 router.get( "/user/device", device.list );
@@ -41,7 +46,6 @@ router.get( "/user/device/:deviceId/pin", device.listPins );
 router.get( "/user/device/:deviceId/pin/:pinId", device.detailPin );
 router.delete( "/user/device/:deviceId/pin/:pinId", device.removePin );
 
-router.get( "/pin-config", raspberrypi.pinConfig );
 
 
 module.exports = router;
