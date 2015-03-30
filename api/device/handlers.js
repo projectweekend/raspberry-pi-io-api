@@ -1,21 +1,8 @@
-var async = require( "async" );
-var errors = require( "api-utils" ).errors;
-
-var User = require( "../user/models" ).User;
 var Device = require( "./models" ).Device;
 
-var createdResponse = require( "../utils/responses" ).createdResponse;
-var listResponse = require( "../utils/responses" ).listResponse;
 var detailResponse = require( "../utils/responses" ).detailResponse;
 var deleteResponse = require( "../utils/responses" ).deleteResponse;
 var nestedCreateResponse = require( "../utils/responses" ).nestedCreateResponse;
-
-
-exports.list = function ( req, res, next ) {
-
-    Device.listForUser( req.user, listResponse( res, next ) );
-
-};
 
 
 exports.detail = function ( req, res, next ) {
