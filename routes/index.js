@@ -1,7 +1,7 @@
 var express = require( "express" );
 var router = express.Router();
 var user = require( "../api/user" );
-var device = require( "../api/device/handlers" );
+var device = require( "../api/device" );
 var raspberrypi = require( "../api/raspberrypi" );
 
 
@@ -35,17 +35,45 @@ router.get( "/pin-config", function ( req, res, next ) {
     pinConfig.handle();
 } );
 
+router.post( "/user/device", function ( req, res, next ) {
+    var register = new device.Register( req, res, next );
+    register.handle();
+} );
 
-router.post( "/user/device", device.register );
-router.get( "/user/device", device.list );
-router.get( "/user/device/:deviceId", device.detail );
-router.delete( "/user/device/:deviceId", device.remove );
+router.get( "/user/device", function ( req, res, next ) {
+    var deviceList = new device.DeviceList( req, res, next );
+    deviceList.handle();
+} );
 
-router.post( "/user/device/:deviceId/pin", device.addPin );
-router.get( "/user/device/:deviceId/pin", device.listPins );
-router.get( "/user/device/:deviceId/pin/:pinId", device.detailPin );
-router.delete( "/user/device/:deviceId/pin/:pinId", device.removePin );
+router.get( "/user/device/:deviceId", function ( req, res, next ) {
+    var deviceDetail = new device.DeviceDetail( req, res, next );
+    deviceDetail.handle();
+} );
 
+router.delete( "/user/device/:deviceId", function ( req, res, next ) {
+    var deviceRemove = new device.DeviceRemove( req, res, next );
+    deviceRemove.handle();
+} );
+
+router.post( "/user/device/:deviceId/pin", function ( req, res, next ) {
+    var addPin = new device.AddPin( req, res, next );
+    addPin.handle();
+} );
+
+router.get( "/user/device/:deviceId/pin", function ( req, res, next ) {
+    var pinList = new device.PinList( req, res, next );
+    pinList.handle();
+} );
+
+router.get( "/user/device/:deviceId/pin/:pinId", function ( req, res, next ) {
+    var pinDetail = new device.PinDetail( req, res, next );
+    pinDetail.handle();
+} );
+
+router.delete( "/user/device/:deviceId/pin/:pinId", function ( req, res, next ) {
+    var pinRemove = new device.PinRemove( req, res, next );
+    pinRemove.handle();
+} );
 
 
 module.exports = router;
