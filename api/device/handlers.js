@@ -4,13 +4,6 @@ var detailResponse = require( "../utils/responses" ).detailResponse;
 var deleteResponse = require( "../utils/responses" ).deleteResponse;
 
 
-exports.listPins = function ( req, res, next ) {
-
-    Device.listPinConfigForUserAndId( req.user, req.params.deviceId, detailResponse( res, next ) );
-
-};
-
-
 exports.detailPin = function ( req, res, next ) {
 
     Device.detailPinConfigForUserAndId( req.user, req.params.deviceId, req.params.pinId, detailResponse( res, next ) );
