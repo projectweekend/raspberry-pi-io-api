@@ -62,22 +62,6 @@ DeviceSchema.statics.registerForUser = function ( user, done ) {
 };
 
 
-DeviceSchema.statics.canRegisterForUser = function ( user, done ) {
-
-    this.count( { userEmail: user.email }, function ( err, count ) {
-
-        /* istanbul ignore if */
-        if ( err ) {
-            return done( err );
-        }
-
-        return done( null, user.subscription.level > count );
-
-    } );
-
-};
-
-
 DeviceSchema.statics.verifyForUserAndId = function ( user, deviceId, done ) {
 
     var query = {

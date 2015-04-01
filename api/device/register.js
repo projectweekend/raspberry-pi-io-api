@@ -46,6 +46,7 @@ Register.prototype.create = function( user ) {
 
     function onResult ( err, device ) {
 
+        /* istanbul ignore if */
         if ( err ) {
             return _this.emit( "error", err );
         }
