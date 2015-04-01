@@ -4,10 +4,6 @@ var Device = require( "./models" ).Device;
 var CreateHandler = require( "express-classy" ).CreateHandler;
 var errors = require( "api-utils" ).errors;
 
-var detailResponse = require( "../utils/responses" ).detailResponse;
-var deleteResponse = require( "../utils/responses" ).deleteResponse;
-var nestedCreateResponse = require( "../utils/responses" ).nestedCreateResponse;
-
 
 module.exports = AddPin;
 
