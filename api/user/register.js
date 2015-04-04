@@ -7,8 +7,8 @@ var User = require( "./models" ).User;
 module.exports = Register;
 
 
-function Register ( req, res, next ) {
-    CreateHandler.call( this, req, res, next );
+function Register () {
+    CreateHandler.call( this );
 }
 
 util.inherits( Register, CreateHandler );
@@ -21,7 +21,7 @@ Register.prototype.validate = function() {
     var validationErrors = this.req.validationErrors();
 
     if ( validationErrors ) {
-        return this.emit( "error.validation", validationErrors );
+        return this.emit( "invalid", validationErrors );
     }
 
     var user = {
@@ -33,7 +33,7 @@ Register.prototype.validate = function() {
 
 };
 
-Register.prototype.create = function( user ) {
+Register.prototype.action = function( user ) {
 
     var _this = this;
 
@@ -47,7 +47,7 @@ Register.prototype.create = function( user ) {
             token: authUtils.generateJWT( newUser, [ "_id", "email" ] )
         };
 
-        return _this.emit( "respond", response );
+        return _this.emit( "done", response );
 
     }
 

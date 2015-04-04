@@ -323,155 +323,155 @@ describe( "Authenticate a user...", function () {
 } );
 
 
-describe( "Generate an access key...", function () {
+// describe( "Generate an access key...", function () {
 
-    it( "responds with 201 and a key", function ( done ) {
+//     it( "responds with 201 and a key", function ( done ) {
 
-        api.post( routes.generateKey )
-            .set( "Content-Type", "application/json" )
-            .set( "SYSTEM-API-KEY", "fakeapikey" )
-            .set( "Authorization", "Bearer " + testData.token )
-            .expect( 201 )
-            .end( function ( err, res ) {
+//         api.post( routes.generateKey )
+//             .set( "Content-Type", "application/json" )
+//             .set( "SYSTEM-API-KEY", "fakeapikey" )
+//             .set( "Authorization", "Bearer " + testData.token )
+//             .expect( 201 )
+//             .end( function ( err, res ) {
 
-                if ( err ) {
-                    return done( err );
-                }
+//                 if ( err ) {
+//                     return done( err );
+//                 }
 
-                expect( res.body ).to.have.a.property( "key" ).and.not.be.empty;
+//                 expect( res.body ).to.have.a.property( "key" ).and.not.be.empty;
 
-                return done();
+//                 return done();
 
-            } );
+//             } );
 
-    } );
+//     } );
 
-} );
-
-
-describe( "Get user detail...", function () {
-
-    it( "responds with 200 and data", function ( done ) {
-
-        api.get( routes.getDetail )
-            .set( "Content-Type", "application/json" )
-            .set( "SYSTEM-API-KEY", "fakeapikey" )
-            .set( "Authorization", "Bearer " + testData.token )
-            .expect( 200 )
-            .end( function ( err, res ) {
-
-                if ( err ) {
-                    return done( err );
-                }
-
-                expect( res.body ).to.have.a.property( "email", testData.valid.email );
-
-                return done();
-
-            } );
-
-    } );
-
-} );
+// } );
 
 
-describe( "Unregister a user...", function () {
+// describe( "Get user detail...", function () {
 
-    it( "responds with 204", function ( done ) {
+//     it( "responds with 200 and data", function ( done ) {
 
-        api.del( routes.unRegister )
-            .set( "Content-Type", "application/json" )
-            .set( "SYSTEM-API-KEY", "fakeapikey" )
-            .set( "Authorization", "Bearer " + testData.token )
-            .expect( 204 )
-            .end( function ( err ) {
+//         api.get( routes.getDetail )
+//             .set( "Content-Type", "application/json" )
+//             .set( "SYSTEM-API-KEY", "fakeapikey" )
+//             .set( "Authorization", "Bearer " + testData.token )
+//             .expect( 200 )
+//             .end( function ( err, res ) {
 
-                if ( err ) {
-                    return done( err );
-                }
+//                 if ( err ) {
+//                     return done( err );
+//                 }
 
-                return done();
+//                 expect( res.body ).to.have.a.property( "email", testData.valid.email );
 
-            } );
+//                 return done();
 
-    } );
+//             } );
 
-} );
+//     } );
 
-
-describe( "Unregister a user with an old token...", function () {
-
-    it( "responds with 401", function ( done ) {
-
-        api.del( routes.unRegister )
-            .set( "Content-Type", "application/json" )
-            .set( "SYSTEM-API-KEY", "fakeapikey" )
-            .set( "Authorization", "Bearer " + testData.token )
-            .expect( 401 )
-            .end( function ( err, res ) {
-
-                if ( err ) {
-                    return done( err );
-                }
-
-                expect( res.body ).to.have.a.property( "message", testData.messages.requiresAuthentication );
-
-                return done();
-
-            } );
-
-    } );
-
-} );
+// } );
 
 
-describe( "Generate an access key with an old token...", function () {
+// describe( "Unregister a user...", function () {
 
-    it( "responds with 401 and a message", function ( done ) {
+//     it( "responds with 204", function ( done ) {
 
-        api.post( routes.generateKey )
-            .set( "Content-Type", "application/json" )
-            .set( "SYSTEM-API-KEY", "fakeapikey" )
-            .set( "Authorization", "Bearer " + testData.token )
-            .expect( 401 )
-            .end( function ( err, res ) {
+//         api.del( routes.unRegister )
+//             .set( "Content-Type", "application/json" )
+//             .set( "SYSTEM-API-KEY", "fakeapikey" )
+//             .set( "Authorization", "Bearer " + testData.token )
+//             .expect( 204 )
+//             .end( function ( err ) {
 
-                if ( err ) {
-                    return done( err );
-                }
+//                 if ( err ) {
+//                     return done( err );
+//                 }
 
-                expect( res.body ).to.have.a.property( "message", testData.messages.requiresAuthentication );
+//                 return done();
 
-                return done();
+//             } );
 
-            } );
+//     } );
 
-    } );
-
-} );
+// } );
 
 
-describe( "Get user detail with an old token...", function () {
+// describe( "Unregister a user with an old token...", function () {
 
-    it( "responds with 401 and a message", function ( done ) {
+//     it( "responds with 401", function ( done ) {
 
-        api.get( routes.getDetail )
-            .set( "Content-Type", "application/json" )
-            .set( "SYSTEM-API-KEY", "fakeapikey" )
-            .set( "Authorization", "Bearer " + testData.token )
-            .expect( 401 )
-            .end( function ( err, res ) {
+//         api.del( routes.unRegister )
+//             .set( "Content-Type", "application/json" )
+//             .set( "SYSTEM-API-KEY", "fakeapikey" )
+//             .set( "Authorization", "Bearer " + testData.token )
+//             .expect( 401 )
+//             .end( function ( err, res ) {
 
-                if ( err ) {
-                    return done( err );
-                }
+//                 if ( err ) {
+//                     return done( err );
+//                 }
 
-                expect( res.body ).to.have.a.property( "message", testData.messages.requiresAuthentication );
+//                 expect( res.body ).to.have.a.property( "message", testData.messages.requiresAuthentication );
 
-                return done();
+//                 return done();
 
-            } );
+//             } );
 
-    } );
+//     } );
 
-} );
+// } );
+
+
+// describe( "Generate an access key with an old token...", function () {
+
+//     it( "responds with 401 and a message", function ( done ) {
+
+//         api.post( routes.generateKey )
+//             .set( "Content-Type", "application/json" )
+//             .set( "SYSTEM-API-KEY", "fakeapikey" )
+//             .set( "Authorization", "Bearer " + testData.token )
+//             .expect( 401 )
+//             .end( function ( err, res ) {
+
+//                 if ( err ) {
+//                     return done( err );
+//                 }
+
+//                 expect( res.body ).to.have.a.property( "message", testData.messages.requiresAuthentication );
+
+//                 return done();
+
+//             } );
+
+//     } );
+
+// } );
+
+
+// describe( "Get user detail with an old token...", function () {
+
+//     it( "responds with 401 and a message", function ( done ) {
+
+//         api.get( routes.getDetail )
+//             .set( "Content-Type", "application/json" )
+//             .set( "SYSTEM-API-KEY", "fakeapikey" )
+//             .set( "Authorization", "Bearer " + testData.token )
+//             .expect( 401 )
+//             .end( function ( err, res ) {
+
+//                 if ( err ) {
+//                     return done( err );
+//                 }
+
+//                 expect( res.body ).to.have.a.property( "message", testData.messages.requiresAuthentication );
+
+//                 return done();
+
+//             } );
+
+//     } );
+
+// } );

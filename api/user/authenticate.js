@@ -7,13 +7,13 @@ var User = require( "./models" ).User;
 module.exports = Authenticate;
 
 
-function Authenticate ( req, res, next ) {
-    ReadHandler.call( this, req, res, next );
+function Authenticate () {
+    ReadHandler.call( this );
 }
 
 util.inherits( Authenticate, ReadHandler );
 
-Authenticate.prototype.preRead = function() {
+Authenticate.prototype.validate = function() {
 
     this.req.checkBody( "email", "Not a valid email address" ).isEmail();
     this.req.checkBody( "password", "Password is required" ).isLength( 1 );
@@ -21,7 +21,7 @@ Authenticate.prototype.preRead = function() {
     var validationErrors = this.req.validationErrors();
 
     if ( validationErrors ) {
-        return this.emit( "error.validation", validationErrors );
+        return this.emit( "invalid", validationErrors );
     }
 
     var user = {
@@ -33,7 +33,7 @@ Authenticate.prototype.preRead = function() {
 
 };
 
-Authenticate.prototype.read = function( user ) {
+Authenticate.prototype.action = function( user ) {
 
     var _this = this;
 
@@ -47,12 +47,15 @@ Authenticate.prototype.read = function( user ) {
             token: authUtils.generateJWT( existingUser, [ "_id", "email" ] )
         };
 
-        _this.emit( "respond", response );
+        _this.emit( "done", response );
 
     } );
 
 };
 
-Authenticate.prototype.handle = function() {
-    this.preRead();
+Authenticate.prototype.handle = function( req, res, next ) {
+    this.req = req;
+    this.res = res;
+    this.next = next;
+    this.emit( "validate" );
 };
