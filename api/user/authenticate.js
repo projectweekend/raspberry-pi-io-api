@@ -35,9 +35,22 @@ Authenticate.prototype.validate = function() {
 
 Authenticate.prototype.action = function( user ) {
 
+    User.authenticate( user, this.onAuthenticate() );
+
+};
+
+Authenticate.prototype.handle = function( req, res, next ) {
+    this.req = req;
+    this.res = res;
+    this.next = next;
+    this.emit( "validate" );
+};
+
+Authenticate.prototype.onAuthenticate = function() {
+
     var _this = this;
 
-    User.authenticate( user, function ( err, existingUser ) {
+    return function ( err, existingUser ) {
 
         if ( err ) {
             return _this.emit( "error", err );
@@ -49,13 +62,6 @@ Authenticate.prototype.action = function( user ) {
 
         _this.emit( "done", response );
 
-    } );
+    };
 
-};
-
-Authenticate.prototype.handle = function( req, res, next ) {
-    this.req = req;
-    this.res = res;
-    this.next = next;
-    this.emit( "validate" );
 };
