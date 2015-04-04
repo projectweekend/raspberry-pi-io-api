@@ -316,81 +316,81 @@ describe( "Device testing...", function () {
     } );
 
 
-    // describe( "Detail for a pin...", function () {
+    describe( "Detail for a pin...", function () {
 
-    //     it( "responds with 200 and data", function ( done ) {
+        it( "responds with 200 and data", function ( done ) {
 
-    //         api.get( routes.getList + "/" + testData.deviceId + "/pin/" + testData.pinId )
-    //             .set( "Content-Type", "application/json" )
-    //             .set( "SYSTEM-API-KEY", "fakeapikey" )
-    //             .set( "Authorization", "Bearer " + testData.token )
-    //             .expect( 200 )
-    //             .end( function ( err, res ) {
+            api.get( routes.getList + "/" + testData.deviceId + "/pin/" + testData.pinId )
+                .set( "Content-Type", "application/json" )
+                .set( "SYSTEM-API-KEY", "fakeapikey" )
+                .set( "Authorization", "Bearer " + testData.token )
+                .expect( 200 )
+                .end( function ( err, res ) {
 
-    //                 if ( err ) {
-    //                     return done( err );
-    //                 }
+                    if ( err ) {
+                        return done( err );
+                    }
 
-    //                 expect( res.body ).to.have.a.property( "_id" ).and.not.be.empty;
-    //                 expect( res.body ).to.have.a.property( "name", testData.pin.valid.name );
-    //                 expect( res.body ).to.have.a.property( "mode", testData.pin.valid.mode );
-    //                 expect( res.body ).to.have.a.property( "initial", "LOW" );
+                    expect( res.body ).to.have.a.property( "_id" ).and.not.be.empty;
+                    expect( res.body ).to.have.a.property( "name", testData.pin.valid.name );
+                    expect( res.body ).to.have.a.property( "mode", testData.pin.valid.mode );
+                    expect( res.body ).to.have.a.property( "initial", "LOW" );
 
-    //                 return done();
+                    return done();
 
-    //             } );
+                } );
 
-    //     } );
+        } );
 
-    // } );
-
-
-    // describe( "Detail for a pin that doesn't exist...", function () {
-
-    //     it( "responds with 404", function ( done ) {
-
-    //         api.get( routes.getList + "/" + testData.deviceId + "/pin/not-a-pin" )
-    //             .set( "Content-Type", "application/json" )
-    //             .set( "SYSTEM-API-KEY", "fakeapikey" )
-    //             .set( "Authorization", "Bearer " + testData.token )
-    //             .expect( 404 )
-    //             .end( function ( err ) {
-
-    //                 if ( err ) {
-    //                     return done( err );
-    //                 }
-
-    //                 return done();
-
-    //             } );
-
-    //     } );
-
-    // } );
+    } );
 
 
-    // describe( "Detail for a pin on a device that doesn't exist...", function () {
+    describe( "Detail for a pin that doesn't exist...", function () {
 
-    //     it( "responds with 404", function ( done ) {
+        it( "responds with 404", function ( done ) {
 
-    //         api.get( routes.getList + "/does-not-exist/pin/" + testData.pinId )
-    //             .set( "Content-Type", "application/json" )
-    //             .set( "SYSTEM-API-KEY", "fakeapikey" )
-    //             .set( "Authorization", "Bearer " + testData.token )
-    //             .expect( 404 )
-    //             .end( function ( err ) {
+            api.get( routes.getList + "/" + testData.deviceId + "/pin/not-a-pin" )
+                .set( "Content-Type", "application/json" )
+                .set( "SYSTEM-API-KEY", "fakeapikey" )
+                .set( "Authorization", "Bearer " + testData.token )
+                .expect( 404 )
+                .end( function ( err ) {
 
-    //                 if ( err ) {
-    //                     return done( err );
-    //                 }
+                    if ( err ) {
+                        return done( err );
+                    }
 
-    //                 return done();
+                    return done();
 
-    //             } );
+                } );
 
-    //     } );
+        } );
 
-    // } );
+    } );
+
+
+    describe( "Detail for a pin on a device that doesn't exist...", function () {
+
+        it( "responds with 404", function ( done ) {
+
+            api.get( routes.getList + "/does-not-exist/pin/" + testData.pinId )
+                .set( "Content-Type", "application/json" )
+                .set( "SYSTEM-API-KEY", "fakeapikey" )
+                .set( "Authorization", "Bearer " + testData.token )
+                .expect( 404 )
+                .end( function ( err ) {
+
+                    if ( err ) {
+                        return done( err );
+                    }
+
+                    return done();
+
+                } );
+
+        } );
+
+    } );
 
 
     // describe( "Remove a pin...", function () {

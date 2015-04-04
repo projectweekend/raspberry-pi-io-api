@@ -65,10 +65,10 @@ router.get( "/user/device/:deviceId/pin", function ( req, res, next ) {
     pinList.handle( req, res, next );
 } );
 
-// router.get( "/user/device/:deviceId/pin/:pinId", function ( req, res, next ) {
-//     var pinDetail = new device.PinDetail( req, res, next );
-//     pinDetail.handle();
-// } );
+var pinDetail = new device.PinDetail();
+router.get( "/user/device/:deviceId/pin/:pinId", function ( req, res, next ) {
+    pinDetail.handle( req, res, next );
+} );
 
 // router.delete( "/user/device/:deviceId/pin/:pinId", function ( req, res, next ) {
 //     var pinRemove = new device.PinRemove( req, res, next );
