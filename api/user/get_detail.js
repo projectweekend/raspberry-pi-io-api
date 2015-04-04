@@ -14,17 +14,6 @@ util.inherits( GetDetail, ReadHandler );
 
 GetDetail.prototype.action = function() {
 
-    var _this = this;
+    User.detailById( this.req.user._id, this.onDetailUpdateDelete( "done" ) );
 
-    function onDetail ( err, detail ) {
-
-        if ( err ) {
-            return _this.emit( "error", err );
-        }
-
-        return _this.emit( "done", detail );
-
-    }
-
-    User.detailById( this.req.user._id, onDetail );
 };
