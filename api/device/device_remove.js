@@ -1,5 +1,4 @@
 var util = require( "util" );
-var errors = require( "api-utils" ).errors;
 var DeleteHandler = require( "express-classy" ).DeleteHandler;
 var Device = require( "./models" ).Device;
 
@@ -7,33 +6,16 @@ var Device = require( "./models" ).Device;
 module.exports = DeviceRemove;
 
 
-function DeviceRemove ( req, res, next ) {
+function DeviceRemove () {
 
-    DeleteHandler.call( this, req, res, next );
+    DeleteHandler.call( this );
 
 }
 
 util.inherits( DeviceRemove, DeleteHandler );
 
-DeviceRemove.prototype.del = function() {
+DeviceRemove.prototype.action = function() {
 
-    var _this = this;
-
-    function onResult ( err, data ) {
-
-        if ( ( err && err.name === "CastError" ) || !data ) {
-            return _this.emit( "error", errors.resourceNotFound( "Not found" ) );
-        }
-
-        /* istanbul ignore if */
-        if ( err ) {
-            return _this.emit( "error", err );
-        }
-
-        return _this.emit( "respond", {} );
-
-    }
-
-    Device.removeForUserAndId( _this.req.user, _this.req.params.deviceId, onResult );
+    Device.removeForUserAndId( this.req.user, this.req.params.deviceId, this.onDetailUpdateDelete( "done" ) );
 
 };

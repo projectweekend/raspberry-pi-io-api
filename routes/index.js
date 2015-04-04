@@ -50,10 +50,10 @@ router.get( "/user/device/:deviceId", function ( req, res, next ) {
     deviceDetail.handle( req, res, next );
 } );
 
-// router.delete( "/user/device/:deviceId", function ( req, res, next ) {
-//     var deviceRemove = new device.DeviceRemove( req, res, next );
-//     deviceRemove.handle();
-// } );
+var deviceRemove = new device.DeviceRemove();
+router.delete( "/user/device/:deviceId", function ( req, res, next ) {
+    deviceRemove.handle( req, res, next );
+} );
 
 var addPin = new device.AddPin();
 router.post( "/user/device/:deviceId/pin", function ( req, res, next ) {
@@ -70,10 +70,10 @@ router.get( "/user/device/:deviceId/pin/:pinId", function ( req, res, next ) {
     pinDetail.handle( req, res, next );
 } );
 
-// router.delete( "/user/device/:deviceId/pin/:pinId", function ( req, res, next ) {
-//     var pinRemove = new device.PinRemove( req, res, next );
-//     pinRemove.handle();
-// } );
+var pinRemove = new device.PinRemove();
+router.delete( "/user/device/:deviceId/pin/:pinId", function ( req, res, next ) {
+    pinRemove.handle( req, res, next );
+} );
 
 
 module.exports = router;
