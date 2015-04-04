@@ -9,15 +9,15 @@ var Device = require( "./models" ).Device;
 module.exports = Register;
 
 
-function Register ( req, res, next ) {
+function Register () {
 
-    CreateHandler.call( this, req, res, next );
+    CreateHandler.call( this );
 
 }
 
 util.inherits( Register, CreateHandler );
 
-Register.prototype.preCreate = function() {
+Register.prototype.before = function() {
 
     var _this = this;
 
@@ -40,25 +40,15 @@ Register.prototype.preCreate = function() {
 
 };
 
-Register.prototype.create = function( user ) {
+Register.prototype.action = function( user ) {
 
-    var _this = this;
-
-    function onResult ( err, device ) {
-
-        /* istanbul ignore if */
-        if ( err ) {
-            return _this.emit( "error", err );
-        }
-
-        return _this.emit( "respond", device );
-
-    }
-
-    Device.registerForUser( user, onResult );
+    Device.registerForUser( user, this.onListCreate( "done" ) );
 
 };
 
-Register.prototype.handle = function() {
-    this.preCreate();
+Register.prototype.handle = function( req, res, next ) {
+    this.req = req;
+    this.res = res;
+    this.next = next;
+    this.emit( "before" );
 };

@@ -35,10 +35,10 @@ router.post( "/user/key", function ( req, res, next ) {
 //     pinConfig.handle();
 // } );
 
-// router.post( "/user/device", function ( req, res, next ) {
-//     var register = new device.Register( req, res, next );
-//     register.handle();
-// } );
+var deviceRegister = new device.Register();
+router.post( "/user/device", function ( req, res, next ) {
+    deviceRegister.handle( req, res, next );
+} );
 
 // router.get( "/user/device", function ( req, res, next ) {
 //     var deviceList = new device.DeviceList( req, res, next );
