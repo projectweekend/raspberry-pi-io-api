@@ -45,20 +45,20 @@ router.get( "/user/device", function ( req, res, next ) {
     deviceList.handle( req, res, next );
 } );
 
-// router.get( "/user/device/:deviceId", function ( req, res, next ) {
-//     var deviceDetail = new device.DeviceDetail( req, res, next );
-//     deviceDetail.handle();
-// } );
+var deviceDetail = new device.DeviceDetail();
+router.get( "/user/device/:deviceId", function ( req, res, next ) {
+    deviceDetail.handle( req, res, next );
+} );
 
 // router.delete( "/user/device/:deviceId", function ( req, res, next ) {
 //     var deviceRemove = new device.DeviceRemove( req, res, next );
 //     deviceRemove.handle();
 // } );
 
-// router.post( "/user/device/:deviceId/pin", function ( req, res, next ) {
-//     var addPin = new device.AddPin( req, res, next );
-//     addPin.handle();
-// } );
+var addPin = new device.AddPin();
+router.post( "/user/device/:deviceId/pin", function ( req, res, next ) {
+    addPin.handle( req, res, next );
+} );
 
 // router.get( "/user/device/:deviceId/pin", function ( req, res, next ) {
 //     var pinList = new device.PinList( req, res, next );

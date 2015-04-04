@@ -2,15 +2,14 @@ var util = require( "util" );
 var _ = require( "lodash" );
 var Device = require( "./models" ).Device;
 var CreateHandler = require( "express-classy" ).CreateHandler;
-var errors = require( "api-utils" ).errors;
 
 
 module.exports = AddPin;
 
 
-function AddPin ( req, res, next ) {
+function AddPin () {
 
-    CreateHandler.call( this, req, res, next );
+    CreateHandler.call( this );
 
 }
 
@@ -38,25 +37,8 @@ AddPin.prototype.validate = function() {
 
 };
 
-AddPin.prototype.create = function( pin ) {
+AddPin.prototype.action = function( pin ) {
 
-    var _this = this;
-
-    function onResponse ( err, data ) {
-
-        if ( ( err && err.name === "CastError" ) || !data ) {
-            return _this.emit( "error", errors.resourceNotFound( "Not found" ) );
-        }
-
-        /* istanbul ignore if */
-        if ( err ) {
-            return _this.emit( "error", err );
-        }
-
-        return _this.emit( "respond", data );
-
-    }
-
-    Device.addPinConfigForUserAndId( _this.req.user, _this.req.params.deviceId, pin, onResponse );
+    Device.addPinConfigForUserAndId( this.req.user, this.req.params.deviceId, pin, this.onDetailUpdateDelete( "done" ) );
 
 };

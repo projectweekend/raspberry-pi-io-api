@@ -173,86 +173,86 @@ describe( "Device testing...", function () {
     } );
 
 
-    // describe( "Detail for a device...", function () {
+    describe( "Detail for a device...", function () {
 
-    //     it( "responds with 200 and data", function ( done ) {
+        it( "responds with 200 and data", function ( done ) {
 
-    //         api.get( routes.getList + "/" + testData.deviceId )
-    //             .set( "Content-Type", "application/json" )
-    //             .set( "SYSTEM-API-KEY", "fakeapikey" )
-    //             .set( "Authorization", "Bearer " + testData.token )
-    //             .expect( 200 )
-    //             .end( function ( err, res ) {
+            api.get( routes.getList + "/" + testData.deviceId )
+                .set( "Content-Type", "application/json" )
+                .set( "SYSTEM-API-KEY", "fakeapikey" )
+                .set( "Authorization", "Bearer " + testData.token )
+                .expect( 200 )
+                .end( function ( err, res ) {
 
-    //                 if ( err ) {
-    //                     return done( err );
-    //                 }
+                    if ( err ) {
+                        return done( err );
+                    }
 
-    //                 expect( res.body ).to.have.a.property( "_id" ).and.not.be.empty;
-    //                 expect( res.body ).to.have.a.property( "userEmail", testData.user.email );
-    //                 expect( res.body ).to.have.a.property( "pinConfig" ).and.be.empty;
+                    expect( res.body ).to.have.a.property( "_id" ).and.not.be.empty;
+                    expect( res.body ).to.have.a.property( "userEmail", testData.user.email );
+                    expect( res.body ).to.have.a.property( "pinConfig" ).and.be.empty;
 
-    //                 return done();
+                    return done();
 
-    //             } );
+                } );
 
-    //     } );
+        } );
 
-    // } );
-
-
-    // describe( "Detail for a device that doesn't exist...", function () {
-
-    //     it( "responds with 404", function ( done ) {
-
-    //         api.get( routes.getList + "/does-not-exist" )
-    //             .set( "Content-Type", "application/json" )
-    //             .set( "SYSTEM-API-KEY", "fakeapikey" )
-    //             .set( "Authorization", "Bearer " + testData.token )
-    //             .expect( 404 )
-    //             .end( function ( err ) {
-
-    //                 if ( err ) {
-    //                     return done( err );
-    //                 }
-
-    //                 return done();
-
-    //             } );
-
-    //     } );
-
-    // } );
+    } );
 
 
-    // describe( "Add a new pin config to device with valid data", function () {
+    describe( "Detail for a device that doesn't exist...", function () {
 
-    //     it( "responds with 201 and data", function ( done ) {
+        it( "responds with 404", function ( done ) {
 
-    //         api.post( "/user/device/" + testData.deviceId + "/pin" )
-    //             .set( "Content-Type", "application/json" )
-    //             .set( "SYSTEM-API-KEY", "fakeapikey" )
-    //             .set( "Authorization", "Bearer " + testData.token )
-    //             .send( testData.pin.valid )
-    //             .expect( 201 )
-    //             .end( function ( err, res ) {
+            api.get( routes.getList + "/does-not-exist" )
+                .set( "Content-Type", "application/json" )
+                .set( "SYSTEM-API-KEY", "fakeapikey" )
+                .set( "Authorization", "Bearer " + testData.token )
+                .expect( 404 )
+                .end( function ( err ) {
 
-    //                 if ( err ) {
-    //                     return done( err );
-    //                 }
+                    if ( err ) {
+                        return done( err );
+                    }
 
-    //                 expect( res.body ).to.have.a.property( "_id" ).and.not.be.empty;
-    //                 expect( res.body ).to.have.a.property( "name", testData.pin.valid.name );
-    //                 expect( res.body ).to.have.a.property( "mode", testData.pin.valid.mode );
-    //                 expect( res.body ).to.have.a.property( "initial", "LOW" );
+                    return done();
 
-    //                 return done();
+                } );
 
-    //             } );
+        } );
 
-    //     } );
+    } );
 
-    // } );
+
+    describe( "Add a new pin config to device with valid data", function () {
+
+        it( "responds with 201 and data", function ( done ) {
+
+            api.post( "/user/device/" + testData.deviceId + "/pin" )
+                .set( "Content-Type", "application/json" )
+                .set( "SYSTEM-API-KEY", "fakeapikey" )
+                .set( "Authorization", "Bearer " + testData.token )
+                .send( testData.pin.valid )
+                .expect( 201 )
+                .end( function ( err, res ) {
+
+                    if ( err ) {
+                        return done( err );
+                    }
+
+                    expect( res.body ).to.have.a.property( "_id" ).and.not.be.empty;
+                    expect( res.body ).to.have.a.property( "name", testData.pin.valid.name );
+                    expect( res.body ).to.have.a.property( "mode", testData.pin.valid.mode );
+                    expect( res.body ).to.have.a.property( "initial", "LOW" );
+
+                    return done();
+
+                } );
+
+        } );
+
+    } );
 
 
     // describe( "Add a new pin config to device with invalid data", function () {
