@@ -35,12 +35,18 @@ Register.prototype.validate = function() {
 
 Register.prototype.action = function( user ) {
 
+    User.register( user, this.onRegister() );
+
+};
+
+Register.prototype.onRegister = function() {
+
     var _this = this;
 
-    function onRegister ( err, newUser ) {
+    return function ( err, newUser ) {
 
         if ( err ) {
-            return _this.next( err );
+            return _this.emit( "error", err );
         }
 
         var response = {
@@ -49,8 +55,6 @@ Register.prototype.action = function( user ) {
 
         return _this.emit( "done", response );
 
-    }
-
-    User.register( user, onRegister );
+    };
 
 };
