@@ -14,6 +14,6 @@ util.inherits( GetDetail, ReadHandler );
 
 GetDetail.prototype.action = function() {
 
-    User.detailById( this.req.user._id, this.onDetailUpdateDelete( "done" ) );
+    User.detailById( this.req.user._id, this.onListCreate( "done" ) );
 
 };
