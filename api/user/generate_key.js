@@ -14,9 +14,22 @@ util.inherits( GenerateKey, CreateHandler );
 
 GenerateKey.prototype.action = function() {
 
+    User.generateKeyById( this.req.user._id, this.onGenerateKey() );
+
+};
+
+GenerateKey.prototype.handle = function( req, res, next ) {
+    this.req = req;
+    this.res = res;
+    this.next = next;
+    this.emit( "create" );
+};
+
+GenerateKey.prototype.onGenerateKey = function() {
+
     var _this = this;
 
-    User.generateKeyById( _this.req.user._id, function ( err, key ) {
+    return function ( err, key ) {
 
         if ( err ) {
             return _this.emit( "error", err );
@@ -28,13 +41,6 @@ GenerateKey.prototype.action = function() {
 
         return _this.emit( "done", data );
 
-    } );
+    };
 
-};
-
-GenerateKey.prototype.handle = function( req, res, next ) {
-    this.req = req;
-    this.res = res;
-    this.next = next;
-    this.emit( "create" );
 };
