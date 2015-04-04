@@ -10,9 +10,9 @@ var rabbitURL = process.env.RABBIT_URL;
 module.exports = PinConfig;
 
 
-function PinConfig ( req, res, next ) {
+function PinConfig () {
 
-    ReadHandler.call( this, req, res, next );
+    ReadHandler.call( this );
 
     this.on( "verify.user.email", this.verifyUser );
     this.on( "verify.user.key", this.verifyUserKey );
@@ -22,7 +22,7 @@ function PinConfig ( req, res, next ) {
 
 util.inherits( PinConfig, ReadHandler );
 
-PinConfig.prototype.preRead = function() {
+PinConfig.prototype.validate = function() {
 
     var deviceId = this.req.headers[ "io-device-id" ];
     var userEmail = this.req.headers[ "io-user-email" ];
@@ -87,7 +87,7 @@ PinConfig.prototype.verifyUserDevice = function( user ) {
             pinConfig: device.pinConfig
         };
 
-        return _this.emit( "respond", data );
+        return _this.emit( "done", data );
 
     }
 
@@ -95,8 +95,9 @@ PinConfig.prototype.verifyUserDevice = function( user ) {
 
 };
 
-PinConfig.prototype.handle = function() {
-
-    this.preRead();
-
+PinConfig.prototype.handle = function( req, res, next ) {
+    this.req = req;
+    this.res = res;
+    this.next = next;
+    this.emit( "validate" );
 };

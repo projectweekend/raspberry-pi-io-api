@@ -30,10 +30,10 @@ router.post( "/user/key", function ( req, res, next ) {
     generateKey.handle( req, res, next );
 } );
 
-// router.get( "/pin-config", function ( req, res, next ) {
-//     var pinConfig = new raspberrypi.PinConfig( req, res, next );
-//     pinConfig.handle();
-// } );
+var pinConfig = new raspberrypi.PinConfig();
+router.get( "/pin-config", function ( req, res, next ) {
+    pinConfig.handle( req, res, next );
+} );
 
 var deviceRegister = new device.Register();
 router.post( "/user/device", function ( req, res, next ) {
