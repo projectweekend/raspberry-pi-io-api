@@ -40,10 +40,10 @@ router.post( "/user/device", function ( req, res, next ) {
     deviceRegister.handle( req, res, next );
 } );
 
-// router.get( "/user/device", function ( req, res, next ) {
-//     var deviceList = new device.DeviceList( req, res, next );
-//     deviceList.handle();
-// } );
+var deviceList = new device.DeviceList();
+router.get( "/user/device", function ( req, res, next ) {
+    deviceList.handle( req, res, next );
+} );
 
 // router.get( "/user/device/:deviceId", function ( req, res, next ) {
 //     var deviceDetail = new device.DeviceDetail( req, res, next );

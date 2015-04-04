@@ -6,29 +6,16 @@ var Device = require( "./models" ).Device;
 module.exports = DeviceList;
 
 
-function DeviceList ( req, res, next ) {
+function DeviceList () {
 
-    ReadHandler.call( this, req, res, next );
+    ReadHandler.call( this );
 
 }
 
 util.inherits( DeviceList, ReadHandler );
 
-DeviceList.prototype.read = function() {
+DeviceList.prototype.action = function() {
 
-    var _this = this;
-
-    function onResult ( err, devices ) {
-
-        /* istanbul ignore if */
-        if ( err ) {
-            return _this.emit( "error", err );
-        }
-
-        return _this.emit( "respond", devices );
-
-    }
-
-    Device.listForUser( _this.req.user, onResult );
+    Device.listForUser( this.req.user, this.onListCreate( "done" ) );
 
 };
