@@ -1,5 +1,4 @@
 var util = require( "util" );
-var errors = require( "api-utils" ).errors;
 var CreateHandler = require( "express-classy" ).CreateHandler;
 
 var User = require( "../user/models" ).User;
@@ -19,24 +18,7 @@ util.inherits( Register, CreateHandler );
 
 Register.prototype.before = function() {
 
-    var _this = this;
-
-    function onResult ( err, user ) {
-
-        /* istanbul ignore if */
-        if ( err ) {
-            return _this.emit( "error", err );
-        }
-
-        if ( !user ) {
-            return _this.emit( "error", errors.auth( "Requires authentication" ) );
-        }
-
-        return _this.emit( "create", user );
-
-    }
-
-    User.detailById( _this.req.user._id, onResult );
+    User.detailById( this.req.user._id, this.onListCreate( "create" ) );
 
 };
 
