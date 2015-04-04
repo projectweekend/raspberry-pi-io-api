@@ -6,13 +6,13 @@ var User = require( "./models" ).User;
 module.exports = GetDetail;
 
 
-function GetDetail ( req, res, next ) {
-    ReadHandler.call( this, req, res, next );
+function GetDetail () {
+    ReadHandler.call( this );
 }
 
 util.inherits( GetDetail, ReadHandler );
 
-GetDetail.prototype.read = function() {
+GetDetail.prototype.action = function() {
 
     var _this = this;
 
@@ -22,7 +22,7 @@ GetDetail.prototype.read = function() {
             return _this.emit( "error", err );
         }
 
-        return _this.emit( "respond", detail );
+        return _this.emit( "done", detail );
 
     }
 

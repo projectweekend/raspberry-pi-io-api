@@ -349,30 +349,30 @@ describe( "Generate an access key...", function () {
 } );
 
 
-// describe( "Get user detail...", function () {
+describe( "Get user detail...", function () {
 
-//     it( "responds with 200 and data", function ( done ) {
+    it( "responds with 200 and data", function ( done ) {
 
-//         api.get( routes.getDetail )
-//             .set( "Content-Type", "application/json" )
-//             .set( "SYSTEM-API-KEY", "fakeapikey" )
-//             .set( "Authorization", "Bearer " + testData.token )
-//             .expect( 200 )
-//             .end( function ( err, res ) {
+        api.get( routes.getDetail )
+            .set( "Content-Type", "application/json" )
+            .set( "SYSTEM-API-KEY", "fakeapikey" )
+            .set( "Authorization", "Bearer " + testData.token )
+            .expect( 200 )
+            .end( function ( err, res ) {
 
-//                 if ( err ) {
-//                     return done( err );
-//                 }
+                if ( err ) {
+                    return done( err );
+                }
 
-//                 expect( res.body ).to.have.a.property( "email", testData.valid.email );
+                expect( res.body ).to.have.a.property( "email", testData.valid.email );
 
-//                 return done();
+                return done();
 
-//             } );
+            } );
 
-//     } );
+    } );
 
-// } );
+} );
 
 
 // describe( "Unregister a user...", function () {

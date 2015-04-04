@@ -15,10 +15,10 @@ router.post( "/authenticate", function ( req, res, next ) {
     userAuthenticate.handle( req, res, next );
 } );
 
-// router.get( "/user", function ( req, res, next ) {
-//     var getDetail = new user.GetDetail( req, res, next );
-//     getDetail.handle();
-// } );
+var getDetail = new user.GetDetail();
+router.get( "/user", function ( req, res, next ) {
+    getDetail.handle( req, res, next );
+} );
 
 // router.delete( "/user", function ( req, res, next ) {
 //     var unRegister = new user.UnRegister( req, res, next );
