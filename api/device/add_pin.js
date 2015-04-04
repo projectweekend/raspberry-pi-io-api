@@ -39,6 +39,6 @@ AddPin.prototype.validate = function() {
 
 AddPin.prototype.action = function( pin ) {
 
-    Device.addPinConfigForUserAndId( this.req.user, this.req.params.deviceId, pin, this.onDetailUpdateDelete( "done" ) );
+    Device.addPinConfigForUserAndId( this.req.user, this.req.params.deviceId, pin, this.nextOnResult( "done", true ) );
 
 };

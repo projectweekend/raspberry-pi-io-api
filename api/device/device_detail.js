@@ -16,6 +16,6 @@ util.inherits( DeviceDetail, ReadHandler );
 
 DeviceDetail.prototype.action = function() {
 
-    Device.detailForUserAndId( this.req.user, this.req.params.deviceId, this.onDetailUpdateDelete( "done" ) );
+    Device.detailForUserAndId( this.req.user, this.req.params.deviceId, this.nextOnResult( "done", true ) );
 
 };

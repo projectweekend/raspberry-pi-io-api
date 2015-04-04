@@ -38,7 +38,7 @@ PinConfig.prototype.validate = function() {
 
 PinConfig.prototype.verifyUser = function( userEmail ) {
 
-    User.verifyUserByEmail( userEmail, this.onListCreate( "verify.user.key" ) );
+    User.verifyUserByEmail( userEmail, this.nextOnResult( "verify.user.key" ) );
 
 };
 

@@ -16,6 +16,6 @@ util.inherits( DeviceList, ReadHandler );
 
 DeviceList.prototype.action = function() {
 
-    Device.listForUser( this.req.user, this.onListCreate( "done" ) );
+    Device.listForUser( this.req.user, this.nextOnResult( "done" ) );
 
 };

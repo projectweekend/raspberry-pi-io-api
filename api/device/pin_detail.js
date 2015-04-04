@@ -16,6 +16,6 @@ util.inherits( PinDetail, ReadHandler );
 
 PinDetail.prototype.action = function() {
 
-    Device.detailPinConfigForUserAndId( this.req.user, this.req.params.deviceId, this.req.params.pinId, this.onDetailUpdateDelete( "done" ) );
+    Device.detailPinConfigForUserAndId( this.req.user, this.req.params.deviceId, this.req.params.pinId, this.nextOnResult( "done", true ) );
 
 };

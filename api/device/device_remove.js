@@ -16,6 +16,6 @@ util.inherits( DeviceRemove, DeleteHandler );
 
 DeviceRemove.prototype.action = function() {
 
-    Device.removeForUserAndId( this.req.user, this.req.params.deviceId, this.onDetailUpdateDelete( "done" ) );
+    Device.removeForUserAndId( this.req.user, this.req.params.deviceId, this.nextOnResult( "done", true ) );
 
 };

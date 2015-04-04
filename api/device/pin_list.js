@@ -16,6 +16,6 @@ util.inherits( PinList, ReadHandler );
 
 PinList.prototype.action = function() {
 
-    Device.listPinConfigForUserAndId( this.req.user, this.req.params.deviceId, this.onDetailUpdateDelete( "done" ) );
+    Device.listPinConfigForUserAndId( this.req.user, this.req.params.deviceId, this.nextOnResult( "done", true ) );
 
 };

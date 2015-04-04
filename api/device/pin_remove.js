@@ -16,6 +16,6 @@ util.inherits( PinRemove, DeleteHandler );
 
 PinRemove.prototype.action = function() {
 
-    Device.removePinConfigForUserAndId( this.req.user, this.req.params.deviceId, this.req.params.pinId, this.onDetailUpdateDelete( "done" ) );
+    Device.removePinConfigForUserAndId( this.req.user, this.req.params.deviceId, this.req.params.pinId, this.nextOnResult( "done", true ) );
 
 };

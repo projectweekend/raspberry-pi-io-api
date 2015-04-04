@@ -14,6 +14,6 @@ util.inherits( UnRegister, DeleteHandler );
 
 UnRegister.prototype.action = function() {
 
-    User.unRegister( this.req.user, this.onListCreate( "done" ) );
+    User.unRegister( this.req.user, this.nextOnResult( "done" ) );
 
 };

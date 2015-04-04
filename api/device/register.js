@@ -18,13 +18,13 @@ util.inherits( Register, CreateHandler );
 
 Register.prototype.before = function() {
 
-    User.detailById( this.req.user._id, this.onListCreate( "create" ) );
+    User.detailById( this.req.user._id, this.nextOnResult( "create" ) );
 
 };
 
 Register.prototype.action = function( user ) {
 
-    Device.registerForUser( user, this.onListCreate( "done" ) );
+    Device.registerForUser( user, this.nextOnResult( "done" ) );
 
 };
 
