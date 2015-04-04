@@ -283,37 +283,37 @@ describe( "Device testing...", function () {
     } );
 
 
-    // describe( "List pins for device...", function () {
+    describe( "List pins for device...", function () {
 
-    //     it( "responds with 200 and devices", function ( done ) {
+        it( "responds with 200 and devices", function ( done ) {
 
-    //         api.get( "/user/device/" + testData.deviceId + "/pin" )
-    //             .set( "Content-Type", "application/json" )
-    //             .set( "SYSTEM-API-KEY", "fakeapikey" )
-    //             .set( "Authorization", "Bearer " + testData.token )
-    //             .expect( 200 )
-    //             .end( function ( err, res ) {
+            api.get( "/user/device/" + testData.deviceId + "/pin" )
+                .set( "Content-Type", "application/json" )
+                .set( "SYSTEM-API-KEY", "fakeapikey" )
+                .set( "Authorization", "Bearer " + testData.token )
+                .expect( 200 )
+                .end( function ( err, res ) {
 
-    //                 if ( err ) {
-    //                     return done( err );
-    //                 }
+                    if ( err ) {
+                        return done( err );
+                    }
 
-    //                 expect( res.body ).to.be.an( "array" );
-    //                 expect( res.body.length ).to.be.equal( 1 );
-    //                 expect( res.body[ 0 ] ).to.have.a.property( "_id" ).and.not.be.empty;
-    //                 expect( res.body[ 0 ] ).to.have.a.property( "name", testData.pin.valid.name );
-    //                 expect( res.body[ 0 ] ).to.have.a.property( "mode", testData.pin.valid.mode );
-    //                 expect( res.body[ 0 ] ).to.have.a.property( "initial", "LOW" );
+                    expect( res.body ).to.be.an( "array" );
+                    expect( res.body.length ).to.be.equal( 1 );
+                    expect( res.body[ 0 ] ).to.have.a.property( "_id" ).and.not.be.empty;
+                    expect( res.body[ 0 ] ).to.have.a.property( "name", testData.pin.valid.name );
+                    expect( res.body[ 0 ] ).to.have.a.property( "mode", testData.pin.valid.mode );
+                    expect( res.body[ 0 ] ).to.have.a.property( "initial", "LOW" );
 
-    //                 testData.pinId = res.body[ 0 ]._id;
+                    testData.pinId = res.body[ 0 ]._id;
 
-    //                 return done();
+                    return done();
 
-    //             } );
+                } );
 
-    //     } );
+        } );
 
-    // } );
+    } );
 
 
     // describe( "Detail for a pin...", function () {

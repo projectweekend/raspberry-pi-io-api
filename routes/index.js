@@ -60,10 +60,10 @@ router.post( "/user/device/:deviceId/pin", function ( req, res, next ) {
     addPin.handle( req, res, next );
 } );
 
-// router.get( "/user/device/:deviceId/pin", function ( req, res, next ) {
-//     var pinList = new device.PinList( req, res, next );
-//     pinList.handle();
-// } );
+var pinList = new device.PinList();
+router.get( "/user/device/:deviceId/pin", function ( req, res, next ) {
+    pinList.handle( req, res, next );
+} );
 
 // router.get( "/user/device/:deviceId/pin/:pinId", function ( req, res, next ) {
 //     var pinDetail = new device.PinDetail( req, res, next );
