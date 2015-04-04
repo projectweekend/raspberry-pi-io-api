@@ -28,7 +28,7 @@ AddPin.prototype.validate = function() {
     var validationErrors = this.req.validationErrors();
 
     if ( validationErrors ) {
-        return this.emit( "error.validation", validationErrors );
+        return this.emit( "invalid", validationErrors );
     }
 
     var pin = _.pick( this.req.body, [ "pin", "name", "mode", "initial", "resistor", "pinEvent", "bounce" ] );

@@ -255,32 +255,32 @@ describe( "Device testing...", function () {
     } );
 
 
-    // describe( "Add a new pin config to device with invalid data", function () {
+    describe( "Add a new pin config to device with invalid data", function () {
 
-    //     it( "responds with 400", function ( done ) {
+        it( "responds with 400", function ( done ) {
 
-    //         api.post( "/user/device/" + testData.deviceId + "/pin" )
-    //             .set( "Content-Type", "application/json" )
-    //             .set( "SYSTEM-API-KEY", "fakeapikey" )
-    //             .set( "Authorization", "Bearer " + testData.token )
-    //             .send( testData.pin.invalid )
-    //             .expect( 400 )
-    //             .end( function ( err, res ) {
+            api.post( "/user/device/" + testData.deviceId + "/pin" )
+                .set( "Content-Type", "application/json" )
+                .set( "SYSTEM-API-KEY", "fakeapikey" )
+                .set( "Authorization", "Bearer " + testData.token )
+                .send( testData.pin.invalid )
+                .expect( 400 )
+                .end( function ( err, res ) {
 
-    //                 if ( err ) {
-    //                     return done( err );
-    //                 }
+                    if ( err ) {
+                        return done( err );
+                    }
 
-    //                 expect( res.body ).to.be.an( "array" );
-    //                 expect( res.body.length ).to.equal( 7 );
+                    expect( res.body ).to.be.an( "array" );
+                    expect( res.body.length ).to.equal( 7 );
 
-    //                 return done();
+                    return done();
 
-    //             } );
+                } );
 
-    //     } );
+        } );
 
-    // } );
+    } );
 
 
     // describe( "List pins for device...", function () {
