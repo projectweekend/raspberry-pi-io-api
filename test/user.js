@@ -323,30 +323,30 @@ describe( "Authenticate a user...", function () {
 } );
 
 
-// describe( "Generate an access key...", function () {
+describe( "Generate an access key...", function () {
 
-//     it( "responds with 201 and a key", function ( done ) {
+    it( "responds with 201 and a key", function ( done ) {
 
-//         api.post( routes.generateKey )
-//             .set( "Content-Type", "application/json" )
-//             .set( "SYSTEM-API-KEY", "fakeapikey" )
-//             .set( "Authorization", "Bearer " + testData.token )
-//             .expect( 201 )
-//             .end( function ( err, res ) {
+        api.post( routes.generateKey )
+            .set( "Content-Type", "application/json" )
+            .set( "SYSTEM-API-KEY", "fakeapikey" )
+            .set( "Authorization", "Bearer " + testData.token )
+            .expect( 201 )
+            .end( function ( err, res ) {
 
-//                 if ( err ) {
-//                     return done( err );
-//                 }
+                if ( err ) {
+                    return done( err );
+                }
 
-//                 expect( res.body ).to.have.a.property( "key" ).and.not.be.empty;
+                expect( res.body ).to.have.a.property( "key" ).and.not.be.empty;
 
-//                 return done();
+                return done();
 
-//             } );
+            } );
 
-//     } );
+    } );
 
-// } );
+} );
 
 
 // describe( "Get user detail...", function () {

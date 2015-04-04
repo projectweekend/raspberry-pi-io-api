@@ -6,13 +6,13 @@ var User = require( "./models" ).User;
 module.exports = GenerateKey;
 
 
-function GenerateKey ( req, res, next ) {
-    CreateHandler.call( this, req, res, next );
+function GenerateKey () {
+    CreateHandler.call( this );
 }
 
 util.inherits( GenerateKey, CreateHandler );
 
-GenerateKey.prototype.create = function() {
+GenerateKey.prototype.action = function() {
 
     var _this = this;
 
@@ -26,14 +26,15 @@ GenerateKey.prototype.create = function() {
             key: key
         };
 
-        return _this.emit( "respond", data );
+        return _this.emit( "done", data );
 
     } );
 
 };
 
-GenerateKey.prototype.handle = function() {
-
-    this.create();
-
+GenerateKey.prototype.handle = function( req, res, next ) {
+    this.req = req;
+    this.res = res;
+    this.next = next;
+    this.emit( "create" );
 };

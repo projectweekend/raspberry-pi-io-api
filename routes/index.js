@@ -25,10 +25,10 @@ router.post( "/authenticate", function ( req, res, next ) {
 //     unRegister.handle();
 // } );
 
-// router.post( "/user/key", function ( req, res, next ) {
-//     var generateKey = new user.GenerateKey( req, res, next );
-//     generateKey.handle();
-// } );
+var generateKey = new user.GenerateKey();
+router.post( "/user/key", function ( req, res, next ) {
+    generateKey.handle( req, res, next );
+} );
 
 // router.get( "/pin-config", function ( req, res, next ) {
 //     var pinConfig = new raspberrypi.PinConfig( req, res, next );
