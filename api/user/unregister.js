@@ -6,24 +6,14 @@ var User = require( "./models" ).User;
 module.exports = UnRegister;
 
 
-function UnRegister ( req, res, next ) {
-    DeleteHandler.call( this, req, res, next );
+function UnRegister () {
+    DeleteHandler.call( this );
 }
 
 util.inherits( UnRegister, DeleteHandler );
 
-UnRegister.prototype.del = function() {
+UnRegister.prototype.action = function() {
 
-    var _this = this;
-
-    User.unRegister( _this.req.user, function ( err ) {
-
-        if ( err ) {
-            return _this.emit( "error", err );
-        }
-
-        return _this.emit( "respond", {} );
-
-    } );
+    User.unRegister( this.req.user, this.onListCreate( "done" ) );
 
 };

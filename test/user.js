@@ -375,28 +375,28 @@ describe( "Get user detail...", function () {
 } );
 
 
-// describe( "Unregister a user...", function () {
+describe( "Unregister a user...", function () {
 
-//     it( "responds with 204", function ( done ) {
+    it( "responds with 204", function ( done ) {
 
-//         api.del( routes.unRegister )
-//             .set( "Content-Type", "application/json" )
-//             .set( "SYSTEM-API-KEY", "fakeapikey" )
-//             .set( "Authorization", "Bearer " + testData.token )
-//             .expect( 204 )
-//             .end( function ( err ) {
+        api.del( routes.unRegister )
+            .set( "Content-Type", "application/json" )
+            .set( "SYSTEM-API-KEY", "fakeapikey" )
+            .set( "Authorization", "Bearer " + testData.token )
+            .expect( 204 )
+            .end( function ( err ) {
 
-//                 if ( err ) {
-//                     return done( err );
-//                 }
+                if ( err ) {
+                    return done( err );
+                }
 
-//                 return done();
+                return done();
 
-//             } );
+            } );
 
-//     } );
+    } );
 
-// } );
+} );
 
 
 // describe( "Unregister a user with an old token...", function () {

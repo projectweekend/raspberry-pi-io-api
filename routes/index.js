@@ -15,15 +15,15 @@ router.post( "/authenticate", function ( req, res, next ) {
     userAuthenticate.handle( req, res, next );
 } );
 
-var getDetail = new user.GetDetail();
+var userDetail = new user.GetDetail();
 router.get( "/user", function ( req, res, next ) {
-    getDetail.handle( req, res, next );
+    userDetail.handle( req, res, next );
 } );
 
-// router.delete( "/user", function ( req, res, next ) {
-//     var unRegister = new user.UnRegister( req, res, next );
-//     unRegister.handle();
-// } );
+var userUnRegister = new user.UnRegister();
+router.delete( "/user", function ( req, res, next ) {
+    userUnRegister.handle( req, res, next );
+} );
 
 var generateKey = new user.GenerateKey();
 router.post( "/user/key", function ( req, res, next ) {
