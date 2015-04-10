@@ -13,9 +13,6 @@ if ( !process.env.RABBIT_URL ) {
     process.exit( 1 );
 }
 
-
-var authNotRequired = [ "/register", "/authenticate", "/pin-config" ];
-
 var db = databaseUtils.mongooseConnection();
 var app = express();
 
@@ -24,7 +21,10 @@ app.use( bodyParser.json() );
 app.use( expressValidator() );
 app.use( bodyParser.urlencoded( { extended: false} ) );
 app.use( authUtils.systemAPIKey( [ "/pin-config" ] ) );
+
+var authNotRequired = [ "/register", "/authenticate", "/pin-config" ];
 app.use( jwt( { secret: process.env.JWT_SECRET } ).unless( { path: authNotRequired } ) );
+
 app.use( "/", routes );
 
 // catch 404 and forward to error handler
