@@ -126,21 +126,35 @@ To deploy your own Raspberry Pi IO server first create a Heroku account and inst
 
 **POST:** `/user/device`
 
-**Body:** None
+**Body:**
+```json
+{
+    "type": "rpiA"
+}
+```
 
 **Response:**
 ```json
 {
     "_id": "device_id",
     "userEmail": "something@something.com",
+    "type": "rpiA",
     "pinConfig": []
 }
 ```
 
 **Status Codes:**
 * `201` if successful
+* `400` if incorrect data provided
 * `401` if not authenticated
 * `403` if `SYSTEM-API-KEY` is missing
+
+**Accepted `type` values:**
+* `rpiA`
+* `rpiB`
+* `rpiAPlus`
+* `rpiBPlus`
+* `rpi2B`
 
 
 ### List devices
