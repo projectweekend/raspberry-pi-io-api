@@ -37,14 +37,20 @@ var DeviceSchema = Schema ( {
         required: true,
         trim: true
     },
+    type: {
+        type: String,
+        required: true,
+        trim: true
+    },
     pinConfig: [ PinConfigSchema ]
 } );
 
 
-DeviceSchema.statics.registerForUser = function ( user, done ) {
+DeviceSchema.statics.registerForUser = function ( user, type, done ) {
 
     var newDeviceData = {
         userEmail: user.email,
+        type: type,
         pinConfig: []
     };
 

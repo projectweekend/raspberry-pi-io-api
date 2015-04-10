@@ -4,6 +4,8 @@ var CreateHandler = require( "express-classy" ).CreateHandler;
 var User = require( "../user/models" ).User;
 var Device = require( "./models" ).Device;
 
+var validPins = require( "./config.json" ).validPins;
+
 
 module.exports = Register;
 
@@ -16,7 +18,15 @@ function Register () {
 
 util.inherits( Register, CreateHandler );
 
-Register.prototype.before = function() {
+Register.prototype.validate = function() {
+
+    this.req.checkBody( "type", "Not a valid device type" ).isIn( Object.keys( validPins ) );
+
+    var validationErrors = this.req.validationErrors();
+
+    if ( validationErrors ) {
+        return this.emit( "invalid", validationErrors );
+    }
 
     User.detailById( this.req.user._id, this.nextOnResult( "create" ) );
 
@@ -24,13 +34,6 @@ Register.prototype.before = function() {
 
 Register.prototype.action = function( user ) {
 
-    Device.registerForUser( user, this.nextOnResult( "done" ) );
+    Device.registerForUser( user, this.req.body.type, this.nextOnResult( "done" ) );
 
-};
-
-Register.prototype.handle = function( req, res, next ) {
-    this.req = req;
-    this.res = res;
-    this.next = next;
-    this.emit( "before" );
 };

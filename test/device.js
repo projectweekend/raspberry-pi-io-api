@@ -21,6 +21,9 @@ var testData = {
         email: "test@test.com",
         password: "123456"
     },
+    device: {
+        type: "rpiA"
+    },
     pin: {
         valid: {
             pin: 18,
@@ -121,6 +124,7 @@ describe( "Device testing...", function () {
                 .set( "Content-Type", "application/json" )
                 .set( "SYSTEM-API-KEY", "fakeapikey" )
                 .set( "Authorization", "Bearer " + testData.token )
+                .send( testData.device )
                 .expect( 201 )
                 .end( function ( err, res ) {
 
@@ -130,7 +134,38 @@ describe( "Device testing...", function () {
 
                     expect( res.body ).to.have.a.property( "_id" ).and.not.be.empty;
                     expect( res.body ).to.have.a.property( "userEmail", testData.user.email );
+                    expect( res.body ).to.have.a.property( "type", testData.device.type );
                     expect( res.body ).to.have.a.property( "pinConfig" ).and.be.empty;
+
+                    return done();
+
+                } );
+
+        } );
+
+    } );
+
+
+    describe( "Register a new device with invalid data...", function () {
+
+        it( "responds with 400", function ( done ) {
+
+            api.post( routes.registerDevice )
+                .set( "Content-Type", "application/json" )
+                .set( "SYSTEM-API-KEY", "fakeapikey" )
+                .set( "Authorization", "Bearer " + testData.token )
+                .send( {
+                    type: "not valid"
+                } )
+                .expect( 400 )
+                .end( function ( err, res ) {
+
+                    if ( err ) {
+                        return done( err );
+                    }
+
+                    expect( res.body ).to.be.an( "array" );
+                    expect( res.body.length ).to.equal( 1 );
 
                     return done();
 

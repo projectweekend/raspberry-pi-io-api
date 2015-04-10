@@ -112,6 +112,9 @@ describe( "Testing pin config for Raspberry Pi", function () {
                 .set( "Content-Type", "application/json" )
                 .set( "SYSTEM-API-KEY", "fakeapikey" )
                 .set( "Authorization", "Bearer " + testData.token )
+                .send( {
+                    type: "rpiA"
+                } )
                 .expect( 201 )
                 .end( function ( err, res ) {
 
