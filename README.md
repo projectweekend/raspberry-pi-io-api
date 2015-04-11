@@ -167,6 +167,7 @@ To deploy your own Raspberry Pi IO server first create a Heroku account and inst
     {
         "_id": "device_id",
         "userEmail": "something@something.com",
+        "type": "rpiA",
         "pinConfig": []
     }
 ]
@@ -187,6 +188,7 @@ To deploy your own Raspberry Pi IO server first create a Heroku account and inst
 {
     "_id": "device_id",
     "userEmail": "something@something.com",
+    "type": "rpiA",
     "pinConfig": []
 }
 ```

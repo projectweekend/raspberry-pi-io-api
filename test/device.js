@@ -195,6 +195,7 @@ describe( "Device testing...", function () {
                     expect( res.body.length ).to.be.equal( 1 );
                     expect( res.body[ 0 ] ).to.have.a.property( "_id" ).and.not.be.empty;
                     expect( res.body[ 0 ] ).to.have.a.property( "userEmail", testData.user.email );
+                    expect( res.body[ 0 ] ).to.have.a.property( "type", testData.device.type );
                     expect( res.body[ 0 ] ).to.have.a.property( "pinConfig" ).and.be.empty;
 
                     testData.deviceId = res.body[ 0 ]._id;
@@ -225,6 +226,7 @@ describe( "Device testing...", function () {
 
                     expect( res.body ).to.have.a.property( "_id" ).and.not.be.empty;
                     expect( res.body ).to.have.a.property( "userEmail", testData.user.email );
+                    expect( res.body ).to.have.a.property( "type", testData.device.type );
                     expect( res.body ).to.have.a.property( "pinConfig" ).and.be.empty;
 
                     return done();
