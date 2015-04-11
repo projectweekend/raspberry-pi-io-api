@@ -13,7 +13,7 @@ if ( !process.env.RABBIT_URL ) {
     process.exit( 1 );
 }
 
-var db = databaseUtils.mongooseConnection();
+var db = databaseUtils.mongooseConnection( "DB_PORT" );
 var app = express();
 
 app.use( logger( "dev" ) );
