@@ -253,6 +253,7 @@ To deploy your own Raspberry Pi IO server first create a Heroku account and inst
 * `400` if invalid data
 * `401` if not authenticated
 * `403` if `SYSTEM-API-KEY` is missing
+* `409` if `pin` is not available for `device.type`
 
 
 ### List pin configurations for a device
