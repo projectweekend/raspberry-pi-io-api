@@ -1,6 +1,8 @@
+var format = require( "util" ).format;
 var async = require( "async" );
 var mongoose = require( "mongoose" );
 var errors = require( "api-utils" ).errors;
+var validPins = require( "./config.json" ).validPins;
 
 
 var Schema = mongoose.Schema;
@@ -149,6 +151,24 @@ DeviceSchema.statics.addPinConfigForUserAndId = function ( user, deviceId, pinCo
 
     }
 
+    function validatePinOnDevice ( device, cb ) {
+
+        if ( !device ) {
+            return cb( null, null );
+        }
+
+        var pinsOnDevice = validPins[ device.type ];
+
+        if ( pinsOnDevice.indexOf( pinConfigItem.pin ) === -1 ) {
+            var message = "Pin %d is not available on device type %s";
+            message = format( message, pinConfigItem.pin, device.type );
+            return cb( errors.conflict( message ) );
+        }
+
+        return cb( null, device );
+
+    }
+
     function addPinToDevice ( device, cb ) {
 
         if ( !device ) {
@@ -172,7 +192,7 @@ DeviceSchema.statics.addPinConfigForUserAndId = function ( user, deviceId, pinCo
 
     }
 
-    async.waterfall( [ findDevice, addPinToDevice ], done );
+    async.waterfall( [ findDevice, validatePinOnDevice, addPinToDevice ], done );
 
 };
 

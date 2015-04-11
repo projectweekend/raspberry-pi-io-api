@@ -38,6 +38,11 @@ var testData = {
             resistor: "not valid",
             pinEvent: "not valid",
             bounce: "not a number"
+        },
+        notOnDevice: {
+            pin: 1,
+            name: "Red LED",
+            mode: "OUT"
         }
     },
     token: "",
@@ -282,6 +287,31 @@ describe( "Device testing...", function () {
                     expect( res.body ).to.have.a.property( "name", testData.pin.valid.name );
                     expect( res.body ).to.have.a.property( "mode", testData.pin.valid.mode );
                     expect( res.body ).to.have.a.property( "initial", "LOW" );
+
+                    return done();
+
+                } );
+
+        } );
+
+    } );
+
+
+    describe( "Add a new pin config with a pin that doesn't exist on the device", function () {
+
+        it( "responds with 409", function ( done ) {
+
+            api.post( "/user/device/" + testData.deviceId + "/pin" )
+                .set( "Content-Type", "application/json" )
+                .set( "SYSTEM-API-KEY", "fakeapikey" )
+                .set( "Authorization", "Bearer " + testData.token )
+                .send( testData.pin.notOnDevice )
+                .expect( 409 )
+                .end( function ( err, res ) {
+
+                    if ( err ) {
+                        return done( err );
+                    }
 
                     return done();
 
